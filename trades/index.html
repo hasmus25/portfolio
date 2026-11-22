@@ -726,7 +726,7 @@ window.SITE = (function (DATA) {
   }
 
   function equityChart(el, sr, cv, opts = {}) {
-    const W = Math.max(280, el.clientWidth), H = opts.h || 250, ml = 8, mr = 52, mt = 10, eqH = Math.round(H * 0.68), gap = 18, ddH = H - eqH - gap - 22;
+    const W = Math.max(280, el.clientWidth), H = opts.h || 250, ml = 8, mr = 52, mt = 10, eqH = Math.round(H * 0.66), gap = 26, ddH = H - eqH - gap - 22;
     const n = sr.idx.length;
     if (!n) { el.innerHTML = `<p class="muted">No sessions in this period.</p>`; return; }
     let lo = 0, hi = 0, dlo = 0; for (let i = 0; i < n; i++) { lo = Math.min(lo, cv.cum[i]); hi = Math.max(hi, cv.cum[i]); dlo = Math.min(dlo, cv.dd[i]); }
@@ -753,7 +753,7 @@ window.SITE = (function (DATA) {
       <circle cx="${X(n - 1)}" cy="${Y(end)}" r="3.5" fill="var(--sky)"/>
       <text x="${W - mr + 6}" y="${Y(end) - 8}" style="fill:var(--ink);font-weight:700">${fR(end)}</text>
       <path d="${ddPath}" fill="var(--star-tint)" stroke="var(--star)" stroke-width="1"/>
-      <text x="${W - mr + 6}" y="${Yd(0) + 4}">Drawdown</text>
+      <text x="${ml}" y="${Yd(0) - 6}" style="fill:var(--ink-2)">Drawdown: R below the previous high</text><text x="${W - mr + 6}" y="${Yd(0) + 4}">0R</text>
       <text x="${W - mr + 6}" y="${Yd(ddMin) + 4}" style="fill:var(--star)">${fR(ddMin)}</text>
       ${yl.map(([i, y]) => `<line x1="${X(i)}" x2="${X(i)}" y1="${H - 20}" y2="${H - 15}" stroke="var(--ink-3)"/><text x="${X(i) + 3}" y="${H - 5}">${y}</text>`).join("")}
       <line class="hair" x1="0" x2="0" y1="${mt}" y2="${H - 22}" stroke="var(--ink)" stroke-width="1" visibility="hidden"/>
