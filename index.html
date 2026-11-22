@@ -46,9 +46,10 @@ a:hover { color: var(--acc); text-decoration-color: var(--acc); }
 .hero .meta li { display: inline-flex; align-items: center; gap: 9px; padding: 10px 14px; border: 1px solid #2E313D; border-radius: 3px; background: var(--k2); font: 500 15px/1.2 var(--sans); color: var(--w); }
 .hero .meta li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--acc); box-shadow: 0 0 8px var(--acc); flex: none; }
 
-section.blk { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 20px 48px; padding-block: 52px; border-top: 1px solid var(--rule); }
-.lab { font: 400 14px/1.4 var(--wide); letter-spacing: .08em; text-transform: uppercase; color: var(--w); margin: 0; position: sticky; top: 84px; align-self: start; }
-.lab span { display: block; font: 400 11px/1 var(--mono); color: var(--acc); letter-spacing: .1em; margin-bottom: 10px; }
+section.blk { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 20px 48px; padding-block: 52px; border-top: 1px solid var(--rule); }
+.lab { font: 400 22px/1.25 var(--wide); letter-spacing: .05em; text-transform: uppercase; color: var(--w); margin: 0; position: sticky; top: 84px; align-self: start;
+  -webkit-text-stroke: .7px currentColor; overflow-wrap: anywhere; }  /* Michroma has one weight; the stroke makes it read bold */
+.lab span { display: block; font: 500 13px/1 var(--mono); color: var(--acc); letter-spacing: .1em; margin-bottom: 12px; -webkit-text-stroke: 0; }
 h2 { font: 400 clamp(20px, 2.4vw, 26px)/1.2 var(--wide); margin: 0 0 8px; letter-spacing: .01em; }
 .list { margin: 0; padding: 0; list-style: none; display: grid; gap: 30px; }
 .it { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 24px; }
