@@ -11,212 +11,134 @@
 <title>Mustafa Hassan</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap">
 <style>
-/* Personal home page. One serif family in sentence case, warm off-white on near-black, a single muted brass accent;
-   the only bright colour is in the trading chart, where each line is a real model. Single dark theme. */
+/* Clean draft of the home page: one serif family, sentence case, one narrow column, plain text links, flat near-black.
+   The only colour is in the trading chart, where each line is a real model. */
 :root {
-  --k: #0E0E0F; --k2: #151515; --w: #E9E6DF; --w2: #A9A59C; --g: #77746D; --rule: #262523;
-  --acc: #C9A86A;
-  --wide: "Source Serif 4", "Iowan Old Style", Georgia, serif; --sans: var(--wide); --mono: var(--wide);
+  --bg: #0E0E0F; --fg: #E9E6DF; --fg2: #A9A59C; --fg3: #77746D; --rule: #262523;
+  --serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 64px; }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-body { margin: 0; background: var(--k); color: var(--w); font: 400 16px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
-body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 20; background: var(--k); }
-a { color: inherit; text-underline-offset: 3px; text-decoration-color: var(--g); }
-a:hover { color: var(--acc); text-decoration-color: var(--acc); }
-:focus-visible { outline: 2px solid var(--acc); outline-offset: 3px; }
-.wrap { max-width: 1080px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 400 18px/1.6 var(--serif); font-optical-sizing: auto; -webkit-font-smoothing: antialiased; }
+a { color: var(--fg); text-decoration: underline; text-decoration-color: #55524C; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { text-decoration-color: var(--fg); }
+:focus-visible { outline: 1px solid var(--fg); outline-offset: 3px; }
+main { max-width: 700px; margin: 0 auto; padding: clamp(56px, 12vh, 120px) max(22px, env(safe-area-inset-right, 0px)) 80px max(22px, env(safe-area-inset-left, 0px)); }
 
-.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: rgba(14, 14, 15, .86); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule); }
-.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 16px; }
-.mark { font: 600 17px/1 var(--wide); letter-spacing: -.01em; text-decoration: none; white-space: nowrap; }
-.top nav { display: flex; gap: 6px 24px; flex-wrap: wrap; justify-content: flex-end; font: 400 16px/1 var(--sans); }
-.top nav a { color: var(--w2); text-decoration: none; padding: 6px 0; border-bottom: 1.5px solid transparent; }
-.top nav a:hover { color: var(--w); }
-.top nav a.on { color: var(--acc); border-bottom-color: var(--acc); }
-.top nav a.pill { color: var(--acc); border: 1px solid var(--acc); border-radius: 3px; padding: 6px 10px; margin: -1px 0; }
-.top nav a.pill:hover { background: var(--acc); color: var(--k); }
-.hero-go { margin-top: 26px; }
-.go a { background: rgba(14, 14, 15, .6); }
+h1 { font: 500 clamp(34px, 5vw, 44px)/1.1 var(--serif); letter-spacing: -.015em; margin: 0 0 18px; }
+.intro { color: var(--fg); margin: 0 0 14px; max-width: 58ch; text-wrap: pretty; }
+.facts { color: var(--fg2); margin: 0 0 22px; }
+.links { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 0; padding: 0; list-style: none; }
 
-/* background: a quiet version of the models page's night sky, a faint blue glow and sparse slow dust, fixed behind the whole page */
-main { position: relative; }
-.sky { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0;
-  background: var(--k); }
-.sky canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-main > .wrap, footer { position: relative; z-index: 1; }
-.hero { padding-block: clamp(64px, 12vh, 120px) clamp(48px, 8vh, 84px); }
-.hero h1 { font: 500 clamp(44px, 7.6vw, 92px)/1.02 var(--wide); letter-spacing: -.025em; margin: 0 0 28px; text-wrap: balance; }
-.hero .lede { font: 400 clamp(19px, 2.1vw, 22px)/1.55 var(--sans); color: var(--w2); max-width: 46ch; margin: 0; text-wrap: pretty; }
-/* the headline facts, as chips so they read at a glance */
-.hero .meta { margin: 30px 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 10px; }
-.hero .meta li { display: inline-flex; align-items: center; gap: 9px; padding: 10px 14px; border: 1px solid #34322E; border-radius: 3px; background: rgba(21, 21, 21, .72); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); font: 400 16px/1.2 var(--sans); color: var(--w); }
-.hero .meta li::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--acc); flex: none; }
+section { margin-top: 64px; }
+h2 { font: 600 14px/1.3 var(--serif); letter-spacing: .02em; color: var(--fg3); margin: 0 0 18px; padding-bottom: 10px; border-bottom: 1px solid var(--rule); }
+.list { margin: 0; padding: 0; list-style: none; display: grid; gap: 22px; }
+.row { display: flex; justify-content: space-between; align-items: baseline; gap: 4px 20px; flex-wrap: wrap; }
+.row b { font-weight: 600; }
+.row .at { color: var(--fg2); }
+.row time, .row .when { color: var(--fg3); font-size: 15px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.list p { margin: 4px 0 0; color: var(--fg2); font-size: 17px; }
+.course { color: var(--fg2); font-size: 17px; margin: 10px 0 0; }
+.course span { color: var(--fg); }
 
-section.blk { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 20px 48px; padding-block: 52px; border-top: 1px solid var(--rule); }
-.lab { font: 600 26px/1.2 var(--wide); letter-spacing: -.01em; color: var(--w); margin: 0; position: sticky; top: 84px; align-self: start; overflow-wrap: anywhere; }
-.lab span { display: block; font: 400 15px/1 var(--mono); color: var(--acc); margin-bottom: 10px; font-variant-numeric: lining-nums; }
-h2 { font: 500 clamp(22px, 2.4vw, 28px)/1.2 var(--wide); margin: 0 0 8px; letter-spacing: -.01em; }
-.list { margin: 0; padding: 0; list-style: none; display: grid; gap: 30px; }
-.it { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 24px; }
-.it h3 { font: 600 19px/1.35 var(--sans); margin: 0; }
-.it .org { color: var(--w2); font-weight: 400; }
-.it time, .it .when { font: 400 15px/1.7 var(--mono); font-variant-numeric: tabular-nums; color: var(--g); white-space: nowrap; letter-spacing: .03em; }
-.it p { grid-column: 1 / -1; margin: 4px 0 0; color: var(--w2); max-width: 68ch; font-size: 17px; }
-.it .big { font: 600 17px/1 var(--mono); color: var(--acc); letter-spacing: .04em; }
-.courses { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px 36px; margin-top: 22px; }
-.courses h4 { font: 600 15px/1.4 var(--mono); letter-spacing: .01em; color: var(--g); margin: 0 0 8px; }
-.courses ul { margin: 0; padding: 0; list-style: none; columns: 2 130px; column-gap: 20px; color: var(--w2); font-size: 17px; line-height: 1.75; }
-.courses.extra { margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--rule); }
-.courses ul.graded { columns: auto; display: flex; flex-wrap: wrap; gap: 6px 32px; }
-.courses ul.graded b { font: 600 16px/1 var(--mono); color: var(--acc); margin-left: 8px; letter-spacing: .04em; }
+/* trading: the paragraph is laid out line by line with Pretext so it stops where the curves rise into it */
+.flow { position: relative; margin: 0 0 14px; }
+.flow canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.flow-lines { position: relative; z-index: 1; }
+.flow-lines span { position: absolute; left: 0; white-space: pre; font: 400 18px/1 var(--serif); color: var(--fg2); }
+.flow-plain { position: relative; z-index: 1; margin: 0; color: var(--fg2); }
+.flow.laid .flow-plain { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+/* film grain over the flat background (ShaderGradient's grain, without the colour) */
+body::after { content: ""; position: fixed; inset: -50%; pointer-events: none; z-index: 50; opacity: .07; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.cap { color: var(--fg2); font-size: 17px; margin: 0 0 12px; }
 
-/* trading research: the seven curves, drawn when the section comes into view */
-.tr-fig { position: relative; margin: 6px 0 22px; }
-.tr-fig svg { display: block; width: 100%; height: auto; overflow: visible; }
-.tr-fig path.c { fill: none; stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
-.tr-fig .ax { stroke: var(--rule); stroke-width: 1; }
-.tr-fig text { font: 400 13px var(--mono); fill: var(--g); letter-spacing: .03em; }
-.tr-fig text.end { fill: var(--w2); }
-.nums { display: flex; flex-wrap: wrap; gap: 14px 36px; margin: 0 0 24px; padding: 0; }
-.nums div { min-width: 0; }
-.nums dt { font: 400 15px/1.3 var(--mono); letter-spacing: .01em; color: var(--g); }
-.nums dd { margin: 4px 0 0; font: 400 28px/1.1 var(--sans); font-variant-numeric: tabular-nums; }
-.go { display: flex; flex-wrap: wrap; gap: 10px; }
-.go a { display: inline-flex; align-items: center; gap: 8px; padding: 11px 16px; border: 1px solid var(--rule); border-radius: 3px; text-decoration: none; font: 400 16px/1 var(--mono); color: var(--w); }
-.go a:hover { border-color: var(--acc); color: var(--acc); }
-.go a.main { border-color: var(--acc); color: var(--acc); }
-
-.contact { display: grid; gap: 14px; }
-.row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; }
-.row .k { font: 400 15px/1 var(--mono); letter-spacing: .01em; color: var(--g); width: 84px; }
-.row .v { font: 400 18px/1.4 var(--sans); user-select: all; overflow-wrap: anywhere; }
-.copy { font: 400 14px/1 var(--mono); letter-spacing: .01em; color: var(--g); background: none; border: 1px solid var(--rule); border-radius: 3px; padding: 6px 9px; cursor: pointer; }
-.copy:hover { color: var(--acc); border-color: var(--acc); }
-footer { border-top: 1px solid var(--rule); padding-block: 28px calc(28px + env(safe-area-inset-bottom, 0px)); font: 400 14px/1.5 var(--mono); color: var(--g); letter-spacing: .04em; }
-
-@media (max-width: 760px) {
-  section.blk { grid-template-columns: minmax(0, 1fr); padding-block: 40px; }
-  .lab { position: static; }
-  .it { grid-template-columns: minmax(0, 1fr); }
-  .top nav a:not(.keep) { display: none; }
-  .hero .meta { gap: 8px; } .hero .meta li { padding: 8px 11px; font-size: 15px; gap: 7px; }
-}
+.copy { font: 400 14px var(--serif); color: var(--fg3); background: none; border: 0; padding: 0 0 0 10px; cursor: pointer; text-decoration: underline; text-decoration-color: #3A3834; text-underline-offset: 3px; }
+.copy:hover { color: var(--fg); }
+footer { margin-top: 72px; padding-top: 16px; border-top: 1px solid var(--rule); color: var(--fg3); font-size: 14px; }
+@media (max-width: 560px) { body { font-size: 17px; } .list p, .course, .cap { font-size: 16px; } }
 </style>
 
-<header class="top">
-  <div class="wrap">
-    <a class="mark" href="#top">Mustafa Hassan</a>
-    <nav aria-label="Sections">
-      <a href="#academics">Academics</a><a href="#awards">Awards</a><a href="#experience">Experience</a><a href="#trading">Trading</a><a href="#contact">Contact</a><a class="keep pill" href="trades/">Every trade</a>
-    </nav>
-  </div>
-</header>
+<main>
+  <header>
+    <h1>Mustafa Hassan</h1>
+    <p class="intro">I'm a high school student in McKinney, Texas. I build quantitative trading models for Nasdaq-100 futures, compete in math, economics and trading, and help run student finance clubs.</p>
+    <p class="facts">Emerson High School, top 10% of class · National Honor Society · AIME qualifier</p>
+    <ul class="links">
+      <li><a href="models/">Trading models</a></li>
+      <li><a href="trades/">Every trade</a></li>
+      <li><a href="NQTM.pdf" target="_blank" rel="noopener">Research paper (PDF)</a></li>
+      <li><a href="mailto:mustafatyam@gmail.com">Email</a></li>
+      <li><a href="https://www.linkedin.com/in/mustafa-hassan25/" target="_blank" rel="noopener">LinkedIn</a></li>
+    </ul>
+  </header>
 
-<main id="top">
-  <div class="sky" aria-hidden="true"><canvas id="sky"></canvas></div>
-  <div class="wrap">
-    <section class="hero" aria-labelledby="h-name">
-      <h1 id="h-name">Mustafa<br>Hassan</h1>
-      <p class="lede">High school student in McKinney, Texas. I build quantitative trading models for Nasdaq-100 futures, compete in math, economics and trading, and help run student finance organizations.</p>
-      <ul class="meta"><li>Emerson High School</li><li>Top 10% of class</li><li>National Honor Society</li><li>AIME qualifier</li></ul>
-      <div class="go hero-go"><a class="main" href="models/">Explore the models →</a><a href="trades/">Every trade</a><a href="NQTM.pdf" target="_blank" rel="noopener">Research paper (PDF) ↗</a></div>
-    </section>
+  <section aria-labelledby="h-tr">
+    <h2 id="h-tr">Trading research</h2>
+    <div class="flow" id="flow">
+      <canvas id="flow-cv" role="img" aria-label="Running total in R of each of the seven models, 2018 to 2026"></canvas>
+      <div class="flow-lines" id="flow-lines" aria-hidden="true"></div>
+      <p class="flow-plain" id="flow-plain"></p>
+    </div>
+    <p class="cap"><a href="models/">Explore the models</a> · <a href="trades/">every trade</a> · <a href="NQTM.pdf" target="_blank" rel="noopener">the paper</a></p>
+  </section>
 
-    <section class="blk" id="academics" aria-labelledby="h-ac">
-      <p class="lab"><span>01</span>Academics</p>
-      <div>
-        <ul class="list">
-          <li class="it"><h3 id="h-ac">Emerson High School <span class="org">· McKinney, Texas</span></h3>
-            <p>Top 10% of class. National Honor Society.</p></li>
-        </ul>
-        <div class="courses">
-          <div><h4>AP courses completed · 98.5 average</h4><ul><li>Physics 1</li><li>Precalculus</li><li>Seminar</li><li>World History</li><li>Environmental Science</li><li>Psychology</li><li>Human Geography</li><li>Computer Science Principles</li></ul></div>
-          <div><h4>AP courses this year</h4><ul><li>Computer Science A</li><li>Calculus BC</li><li>Physics 2</li><li>Statistics</li><li>Biology</li><li>U.S. History</li><li>English Language</li></ul></div>
-        </div>
-        <div class="courses extra">
-          <div><h4>Extra relevant coursework</h4><ul class="graded"><li>Accounting 1 <b>100</b></li><li>INCubator <b>98</b></li></ul></div>
-        </div>
-      </div>
-    </section>
+  <section aria-labelledby="h-aw">
+    <h2 id="h-aw">Awards</h2>
+    <ul class="list">
+      <li><div class="row"><span><b>AMC 12 Honor Roll</b> <span class="at">· AIME qualifier</span></span><time datetime="2026-11">Nov 2026</time></div>
+        <p>141 of 150, top 5% nationally; advanced to the American Invitational Mathematics Examination.</p></li>
+      <li><div class="row"><span><b>State Distinguished Delegate</b> <span class="at">· YMCA Texas Youth &amp; Government</span></span><time datetime="2026-03">Mar 2026</time></div>
+        <p>One of 25 chosen from 350+ legislative delegates. Wrote a defensive-driving course bill that passed unanimously.</p></li>
+      <li><div class="row"><span><b>UTD Top Trader, 6th place</b> <span class="at">· University of Texas at Dallas</span></span><time datetime="2026-07">Jul 2026</time></div>
+        <p>6th of 303 in a two-month stock trading competition, after joining with three weeks left.</p></li>
+      <li><div class="row"><span><b>DECA District Champion</b> <span class="at">· Principles of Finance</span></span><time datetime="2026-02">Feb 2026</time></div>
+        <p>Advanced to state as the chapter's only entrant in the event.</p></li>
+      <li><div class="row"><span><b>Investopedia Trading Game</b> <span class="at">· top 1%</span></span><span class="when">2025 – now</span></div></li>
+    </ul>
+  </section>
 
-    <section class="blk" id="awards" aria-labelledby="h-aw">
-      <p class="lab" id="h-aw"><span>02</span>Awards</p>
-      <ul class="list">
-        <li class="it"><h3>AMC 12 Honor Roll <span class="org">· AIME qualifier</span></h3><time datetime="2026-11">Nov 2026</time>
-          <p><span class="big">141 / 150</span>, top 5% nationally; advanced to the American Invitational Mathematics Examination.</p></li>
-        <li class="it"><h3>State Distinguished Delegate <span class="org">· YMCA Texas Youth &amp; Government</span></h3><time datetime="2026-03">Mar 2026</time>
-          <p>One of 25 chosen from 350+ legislative delegates at the state level. Wrote a defensive-driving course bill that passed unanimously.</p></li>
-        <li class="it"><h3>UTD Top Trader, 6th place <span class="org">· University of Texas at Dallas</span></h3><time datetime="2026-07">Jul 2026</time>
-          <p>6th of 303 in a two-month stock trading competition, after joining with three weeks left. Won $700.</p></li>
-        <li class="it"><h3>DECA District Champion, Principles of Finance <span class="org">· State qualifier</span></h3><time datetime="2026-02">Feb 2026</time>
-          <p>Advanced to state as the chapter's only entrant in the event.</p></li>
-        <li class="it"><h3>Investopedia Trading Game <span class="org">· Top 1%</span></h3><span class="when">2025 – present</span>
-          <p>Top 1% of the leaderboard.</p></li>
-      </ul>
-    </section>
+  <section aria-labelledby="h-ac">
+    <h2 id="h-ac">Academics</h2>
+    <div class="row"><span><b>Emerson High School</b> <span class="at">· McKinney, Texas</span></span><span class="when">Top 10% · NHS</span></div>
+    <p class="course"><span>AP completed</span>, 98.5 average: Physics 1, Precalculus, Seminar, World History, Environmental Science, Psychology, Human Geography, Computer Science Principles.</p>
+    <p class="course"><span>AP this year</span>: Computer Science A, Calculus BC, Physics 2, Statistics, Biology, U.S. History, English Language.</p>
+    <p class="course"><span>Other relevant coursework</span>: Accounting 1 (100), INCubator (98).</p>
+  </section>
 
-    <section class="blk" id="experience" aria-labelledby="h-ex">
-      <p class="lab" id="h-ex"><span>03</span>Experience</p>
-      <ul class="list">
-        <li class="it"><h3>Private Equity Analyst Intern <span class="org">· Filion Capital</span></h3><span class="when">Apr – Aug 2026</span>
-          <p>Sourced and screened investment opportunities, ran first-pass financial and qualitative analysis, and wrote investment summaries and market research for the senior team.</p></li>
-        <li class="it"><h3>Event Director &amp; Sponsorship Coordinator <span class="org">· Youth Economics Initiative</span></h3><span class="when">Aug 2026 – present</span>
-          <p>Helped run the 2026 EconBowl (a record 120+ teams) and the Women of Wall Street speaker event. Working with the Credit Union of Texas on sponsorship for the launch of FLIP, a financial literacy initiative.</p></li>
-        <li class="it"><h3>Portfolio Manager <span class="org">· Family investments</span></h3><span class="when">May 2025 – present</span>
-          <p>Equities and options, with options hedging and volatility-based position sizing; 60%+ annual returns.</p></li>
-        <li class="it"><h3>Founder <span class="org">· Online clothing resale</span></h3><span class="when">Feb 2026 – present</span>
-          <p>A solo resale business on Depop, eBay, Mercari and Poshmark: sourcing, pricing, customers and shipping. $14,000+ in revenue in its first nine months.</p></li>
-      </ul>
-    </section>
+  <section aria-labelledby="h-ex">
+    <h2 id="h-ex">Experience</h2>
+    <ul class="list">
+      <li><div class="row"><span><b>Private Equity Analyst Intern</b> <span class="at">· Filion Capital</span></span><span class="when">Apr – Aug 2026</span></div>
+        <p>Sourced and screened investment opportunities, ran first-pass financial and qualitative analysis, and wrote investment summaries for the senior team.</p></li>
+      <li><div class="row"><span><b>Event Director &amp; Sponsorship Coordinator</b> <span class="at">· Youth Economics Initiative</span></span><span class="when">Aug 2026 – now</span></div>
+        <p>Helped run the 2026 EconBowl (a record 120+ teams) and the Women of Wall Street speaker event. Working with the Credit Union of Texas on sponsorship for FLIP, a financial literacy initiative.</p></li>
+      <li><div class="row"><span><b>Portfolio Manager</b> <span class="at">· Family investments</span></span><span class="when">May 2025 – now</span></div>
+        <p>Equities and options, with options hedging and volatility-based position sizing; 60%+ annual returns.</p></li>
+      <li><div class="row"><span><b>Founder</b> <span class="at">· Online clothing resale</span></span><span class="when">Feb 2026 – now</span></div>
+        <p>A solo resale business on Depop, eBay, Mercari and Poshmark. $14,000+ in revenue in its first nine months.</p></li>
+    </ul>
+  </section>
 
-    <section class="blk" id="leadership" aria-labelledby="h-ld">
-      <p class="lab" id="h-ld"><span>04</span>Leadership</p>
-      <ul class="list">
-        <li class="it"><h3>President <span class="org">· Investment &amp; Trading Club</span></h3><span class="when">Aug 2026 – present</span>
-          <p>Run meetings, lessons and competitions. Manage the club's $10,000 portfolio with quantitative methods: DCC-GARCH, Wasserstein distributionally robust optimization and hierarchical risk parity.</p></li>
-        <li class="it"><h3>Officer <span class="org">· Physics Club</span></h3>
-          <p>Run meetings, guest speaker events and competition prep.</p></li>
-      </ul>
-    </section>
+  <section aria-labelledby="h-ld">
+    <h2 id="h-ld">Leadership</h2>
+    <ul class="list">
+      <li><div class="row"><span><b>President</b> <span class="at">· Investment &amp; Trading Club</span></span><span class="when">Aug 2026 – now</span></div>
+        <p>Run meetings, lessons and competitions, and manage the club's $10,000 portfolio with DCC-GARCH, Wasserstein distributionally robust optimization and hierarchical risk parity.</p></li>
+      <li><div class="row"><span><b>Officer</b> <span class="at">· Physics Club</span></span></div>
+        <p>Run meetings, guest speaker events and competition prep.</p></li>
+    </ul>
+  </section>
 
-    <section class="blk" id="trading" aria-labelledby="h-tr">
-      <p class="lab"><span>05</span>Trading research</p>
-      <div>
-        <h2 id="h-tr">Seven live models</h2>
-        <p style="color:var(--w2);max-width:62ch;margin:0 0 18px">Intraday strategies for Nasdaq-100 futures, built from Market Profile, order flow and options positioning, and backtested on one-minute CME data from 2018 to 2026 after costs. Each line is one model's running total.</p>
-        <div class="tr-fig" id="fig" aria-label="Cumulative R of the seven models since 2018"></div>
-        <dl class="nums" id="nums"></dl>
-        <div class="go">
-          <a class="main" id="go-models" href="models/">Explore the models →</a>
-          <a id="go-trades" href="trades/">Every trade</a>
-          <a id="go-research" href="NQTM.pdf" target="_blank" rel="noopener">Research paper (PDF) ↗</a>
-        </div>
-      </div>
-    </section>
+  <section aria-labelledby="h-ct">
+    <h2 id="h-ct">Contact</h2>
+    <p style="margin:0"><a href="mailto:mustafatyam@gmail.com">mustafatyam@gmail.com</a><button class="copy" type="button" data-copy="mustafatyam@gmail.com">copy</button></p>
+    <p style="margin:6px 0 0"><a href="https://www.linkedin.com/in/mustafa-hassan25/" target="_blank" rel="noopener">linkedin.com/in/mustafa-hassan25</a></p>
+  </section>
 
-    <section class="blk" id="skills" aria-labelledby="h-sk">
-      <p class="lab" id="h-sk"><span>06</span>Skills</p>
-      <ul class="list">
-        <li class="it"><h3>Python, Java</h3><span class="when">Languages</span></li>
-        <li class="it"><h3>Financial modeling, DCF analysis, technical and fundamental analysis, market research</h3><span class="when">Finance</span></li>
-        <li class="it"><h3>Debate, public speaking, pitch development, operations</h3><span class="when">Other</span></li>
-      </ul>
-    </section>
-
-    <section class="blk" id="contact" aria-labelledby="h-ct">
-      <p class="lab" id="h-ct"><span>07</span>Contact</p>
-      <div class="contact">
-        <div class="row"><span class="k">Email</span><a class="v" href="mailto:mustafatyam@gmail.com">mustafatyam@gmail.com</a><button class="copy" type="button" data-copy="mustafatyam@gmail.com">Copy</button></div>
-        <div class="row"><span class="k">LinkedIn</span><a class="v" href="https://www.linkedin.com/in/mustafa-hassan25/" target="_blank" rel="noopener">linkedin.com/in/mustafa-hassan25 ↗</a></div>
-      </div>
-    </section>
-  </div>
-  <footer><div class="wrap">Mustafa Hassan · McKinney, Texas · trading results are backtests after costs plus a short forward record; not investment advice.</div></footer>
+  <footer>Skills: Python, Java, financial modeling, DCF analysis, debate and public speaking. Trading figures are backtests after costs plus a short live record; not investment advice.</footer>
 </main>
 
 <script id="site-data" type="application/json">{"end":"2026-10-23","fwd":14.14,"combined":{"n":2310,"tot":758.2,"pf":1.84,"sharpe":2.49,"mdd":-16.7},"strategies":[{"code":"ORB","name":"Opening range breakout","tot":176.3,"eq":[["2018-01-02",0.9],["2018-01-22",7.0],["2018-02-12",10.5],["2018-03-02",9.9],["2018-03-22",7.9],["2018-04-12",12.5],["2018-05-03",12.8],["2018-05-23",15.2],["2018-06-12",16.8],["2018-07-03",22.1],["2018-07-23",26.9],["2018-08-10",28.9],["2018-08-30",30.7],["2018-09-20",28.2],["2018-10-10",29.9],["2018-10-30",31.0],["2018-11-20",36.3],["2018-12-11",36.3],["2019-01-02",36.8],["2019-01-22",36.3],["2019-02-12",37.9],["2019-03-04",35.9],["2019-03-22",40.3],["2019-04-12",39.5],["2019-05-03",40.8],["2019-05-23",39.8],["2019-06-13",37.8],["2019-07-03",37.3],["2019-07-23",37.6],["2019-08-12",37.9],["2019-09-02",36.3],["2019-09-20",35.9],["2019-10-10",34.5],["2019-10-31",39.1],["2019-11-20",38.8],["2019-12-10",40.4],["2019-12-31",44.2],["2020-01-22",45.6],["2020-02-11",46.9],["2020-03-02",50.9],["2020-03-23",50.5],["2020-04-13",49.5],["2020-05-01",49.7],["2020-05-21",48.9],["2020-06-11",46.9],["2020-07-01",48.2],["2020-07-21",45.1],["2020-08-11",45.3],["2020-08-31",49.1],["2020-09-18",51.0],["2020-10-08",52.2],["2020-10-29",52.9],["2020-11-18",52.3],["2020-12-08",52.2],["2020-12-30",52.2],["2021-01-20",52.9],["2021-02-09",51.1],["2021-03-01",51.2],["2021-03-22",52.3],["2021-04-12",54.4],["2021-04-30",57.0],["2021-05-21",58.0],["2021-06-10",56.5],["2021-06-30",56.6],["2021-07-21",60.0],["2021-08-10",59.3],["2021-08-30",63.0],["2021-09-17",60.9],["2021-10-08",62.3],["2021-10-28",64.0],["2021-11-17",66.6],["2021-12-08",62.7],["2021-12-29",62.8],["2022-01-18",64.9],["2022-02-07",62.8],["2022-02-28",67.2],["2022-03-18",70.0],["2022-04-07",73.2],["2022-04-29",79.5],["2022-05-19",83.5],["2022-06-08",85.0],["2022-06-28",84.7],["2022-07-19",81.9],["2022-08-08",87.5],["2022-08-26",92.8],["2022-09-16",96.7],["2022-10-06",94.7],["2022-10-26",95.6],["2022-11-15",93.8],["2022-12-06",95.5],["2022-12-27",97.9],["2023-01-17",95.9],["2023-02-07",101.3],["2023-02-27",102.1],["2023-03-17",100.1],["2023-04-06",102.3],["2023-04-28",103.1],["2023-05-18",107.4],["2023-06-07",111.3],["2023-06-28",115.8],["2023-07-18",115.7],["2023-08-07",111.7],["2023-08-28",111.6],["2023-09-15",107.6],["2023-10-05",106.6],["2023-10-25",111.1],["2023-11-15",112.8],["2023-12-05",112.3],["2023-12-26",117.6],["2024-01-17",117.8],["2024-02-06",122.5],["2024-02-26",122.0],["2024-03-15",124.2],["2024-04-08",121.2],["2024-04-26",126.3],["2024-05-16",123.5],["2024-06-06",126.6],["2024-06-26",126.6],["2024-07-16",131.9],["2024-08-05",136.9],["2024-08-26",137.1],["2024-09-13",137.3],["2024-10-03",136.3],["2024-10-24",134.3],["2024-11-13",136.0],["2024-12-03",137.6],["2024-12-23",141.1],["2025-01-16",141.0],["2025-02-05",143.2],["2025-02-25",144.1],["2025-03-18",146.3],["2025-04-07",147.7],["2025-04-28",151.3],["2025-05-16",153.1],["2025-06-06",155.4],["2025-06-26",153.9],["2025-07-16",154.2],["2025-08-06",154.5],["2025-08-26",152.7],["2025-09-15",152.6],["2025-10-06",155.9],["2025-10-24",157.7],["2025-11-13",158.8],["2025-12-03",157.6],["2025-12-24",158.4],["2026-01-15",158.6],["2026-02-04",160.1],["2026-02-25",164.3],["2026-03-17",163.3],["2026-04-07",166.9],["2026-04-27",171.6],["2026-05-18",174.1],["2026-06-05",173.8],["2026-06-25",174.5],["2026-07-16",175.5],["2026-08-04",176.4],["2026-08-05",176.4],["2026-08-25",175.5],["2026-09-14",171.5],["2026-10-05",174.3],["2026-10-23",176.3]]},{"code":"ODR","name":"Open drive","tot":164.2,"eq":[["2018-01-02",0.0],["2018-01-22",-1.0],["2018-02-12",-1.0],["2018-03-02",-2.1],["2018-03-22",-2.1],["2018-04-12",-3.1],["2018-05-03",1.7],["2018-05-23",-1.4],["2018-06-12",-3.5],["2018-07-03",-5.6],["2018-07-23",-5.6],["2018-08-10",-5.6],["2018-08-30",0.5],["2018-09-20",7.8],["2018-10-10",17.3],["2018-10-30",15.3],["2018-11-20",21.4],["2018-12-11",20.3],["2019-01-02",20.3],["2019-01-22",19.1],["2019-02-12",18.1],["2019-03-04",16.0],["2019-03-22",17.8],["2019-04-12",16.8],["2019-05-03",15.7],["2019-05-23",15.7],["2019-06-13",15.3],["2019-07-03",13.5],["2019-07-23",10.5],["2019-08-12",8.4],["2019-09-02",6.3],["2019-09-20",6.4],["2019-10-10",7.5],["2019-10-31",17.6],["2019-11-20",16.6],["2019-12-10",17.3],["2019-12-31",21.8],["2020-01-22",21.8],["2020-02-11",21.8],["2020-03-02",23.5],["2020-03-23",23.5],["2020-04-13",28.7],["2020-05-01",28.7],["2020-05-21",27.7],["2020-06-11",29.0],["2020-07-01",29.0],["2020-07-21",29.8],["2020-08-11",28.8],["2020-08-31",29.4],["2020-09-18",29.4],["2020-10-08",34.7],["2020-10-29",38.2],["2020-11-18",37.2],["2020-12-08",37.2],["2020-12-30",35.2],["2021-01-20",37.3],["2021-02-09",36.2],["2021-03-01",36.2],["2021-03-22",38.3],["2021-04-12",43.4],["2021-04-30",47.3],["2021-05-21",54.2],["2021-06-10",55.9],["2021-06-30",57.2],["2021-07-21",57.2],["2021-08-10",61.3],["2021-08-30",66.6],["2021-09-17",68.0],["2021-10-08",74.3],["2021-10-28",73.3],["2021-11-17",73.3],["2021-12-08",73.3],["2021-12-29",76.2],["2022-01-18",76.2],["2022-02-07",74.2],["2022-02-28",73.2],["2022-03-18",73.2],["2022-04-07",74.5],["2022-04-29",76.2],["2022-05-19",80.2],["2022-06-08",80.6],["2022-06-28",83.9],["2022-07-19",83.8],["2022-08-08",87.0],["2022-08-26",91.9],["2022-09-16",92.2],["2022-10-06",90.7],["2022-10-26",93.8],["2022-11-15",93.8],["2022-12-06",93.8],["2022-12-27",95.3],["2023-01-17",94.3],["2023-02-07",93.3],["2023-02-27",93.3],["2023-03-17",93.3],["2023-04-06",90.2],["2023-04-28",96.9],["2023-05-18",96.9],["2023-06-07",101.3],["2023-06-28",106.4],["2023-07-18",105.3],["2023-08-07",110.0],["2023-08-28",110.4],["2023-09-15",112.0],["2023-10-05",112.0],["2023-10-25",112.0],["2023-11-15",111.0],["2023-12-05",110.0],["2023-12-26",108.9],["2024-01-17",112.9],["2024-02-06",112.9],["2024-02-26",112.9],["2024-03-15",123.9],["2024-04-08",122.9],["2024-04-26",126.4],["2024-05-16",126.4],["2024-06-06",126.4],["2024-06-26",126.4],["2024-07-16",125.3],["2024-08-05",129.3],["2024-08-26",129.8],["2024-09-13",138.4],["2024-10-03",138.4],["2024-10-24",137.4],["2024-11-13",138.1],["2024-12-03",141.3],["2024-12-23",142.6],["2025-01-16",140.9],["2025-02-05",139.9],["2025-02-25",138.9],["2025-03-18",148.1],["2025-04-07",148.1],["2025-04-28",150.9],["2025-05-16",149.9],["2025-06-06",149.9],["2025-06-26",148.9],["2025-07-16",150.0],["2025-08-06",148.0],["2025-08-26",148.2],["2025-09-15",149.0],["2025-10-06",147.0],["2025-10-24",152.7],["2025-11-13",154.8],["2025-12-03",159.4],["2025-12-24",158.4],["2026-01-15",157.4],["2026-02-04",157.4],["2026-02-25",157.9],["2026-03-17",159.8],["2026-04-07",160.0],["2026-04-27",160.0],["2026-05-18",160.6],["2026-06-05",158.5],["2026-06-25",158.5],["2026-07-16",158.5],["2026-08-05",162.2],["2026-08-25",161.3],["2026-09-14",161.3],["2026-09-21",165.2],["2026-10-05",164.2],["2026-10-23",164.2]]},{"code":"IBX","name":"Initial-balance breakout","tot":82.2,"eq":[["2018-01-02",0.6],["2018-01-22",3.2],["2018-02-12",2.2],["2018-03-02",6.3],["2018-03-22",5.3],["2018-04-12",3.0],["2018-05-03",4.4],["2018-05-23",4.3],["2018-06-12",6.4],["2018-07-03",5.1],["2018-07-23",8.4],["2018-08-10",8.4],["2018-08-30",7.2],["2018-09-20",7.7],["2018-10-10",9.4],["2018-10-30",9.0],["2018-11-20",13.1],["2018-12-11",14.7],["2019-01-02",12.6],["2019-01-22",12.1],["2019-02-12",11.2],["2019-03-04",11.9],["2019-03-22",14.7],["2019-04-12",15.4],["2019-05-03",15.9],["2019-05-23",15.9],["2019-06-13",16.1],["2019-07-03",15.1],["2019-07-23",14.1],["2019-08-12",13.1],["2019-09-02",12.7],["2019-09-20",11.9],["2019-10-10",12.1],["2019-10-31",13.4],["2019-11-20",12.4],["2019-12-10",13.2],["2019-12-31",14.3],["2020-01-22",14.3],["2020-02-11",14.0],["2020-03-02",14.3],["2020-03-23",13.3],["2020-04-13",17.5],["2020-05-01",21.7],["2020-05-21",18.7],["2020-06-11",19.2],["2020-07-01",19.3],["2020-07-21",21.4],["2020-08-11",21.4],["2020-08-31",22.0],["2020-09-18",20.8],["2020-10-08",19.9],["2020-10-29",21.7],["2020-11-18",22.8],["2020-12-08",23.3],["2020-12-30",23.3],["2021-01-20",23.9],["2021-02-09",25.1],["2021-03-01",29.2],["2021-03-22",30.7],["2021-04-12",31.7],["2021-04-30",31.8],["2021-05-21",33.3],["2021-06-10",32.6],["2021-06-30",33.2],["2021-07-21",32.2],["2021-08-10",33.6],["2021-08-30",33.9],["2021-09-17",34.3],["2021-10-08",35.3],["2021-10-28",37.1],["2021-11-17",37.4],["2021-12-08",37.8],["2021-12-29",36.8],["2022-01-18",35.3],["2022-02-07",33.3],["2022-02-28",36.7],["2022-03-18",38.0],["2022-04-07",41.3],["2022-04-29",45.2],["2022-05-19",46.2],["2022-06-08",46.9],["2022-06-28",46.1],["2022-07-19",45.9],["2022-08-08",50.2],["2022-08-26",50.0],["2022-09-16",54.7],["2022-10-06",51.6],["2022-10-26",53.1],["2022-11-15",51.6],["2022-12-06",53.6],["2022-12-27",53.1],["2023-01-17",54.1],["2023-02-07",56.3],["2023-02-27",55.8],["2023-03-17",56.9],["2023-04-06",55.9],["2023-04-28",58.8],["2023-05-18",63.2],["2023-06-07",61.5],["2023-06-28",62.6],["2023-07-18",62.6],["2023-08-07",62.5],["2023-08-28",60.9],["2023-09-15",62.7],["2023-10-05",63.6],["2023-10-25",62.0],["2023-11-15",61.7],["2023-12-05",60.7],["2023-12-26",59.0],["2024-01-17",60.9],["2024-02-06",60.9],["2024-02-26",60.1],["2024-03-15",60.2],["2024-04-08",60.2],["2024-04-26",65.8],["2024-05-16",67.3],["2024-06-06",67.7],["2024-06-26",67.7],["2024-07-16",67.7],["2024-08-05",69.7],["2024-08-26",69.7],["2024-09-13",69.3],["2024-10-03",68.1],["2024-10-24",68.7],["2024-11-13",69.4],["2024-12-03",70.4],["2024-12-23",70.0],["2025-01-16",69.9],["2025-02-05",69.5],["2025-02-25",69.2],["2025-03-18",69.5],["2025-04-07",70.6],["2025-04-28",72.1],["2025-05-16",72.3],["2025-06-06",72.3],["2025-06-26",73.2],["2025-07-16",73.0],["2025-08-06",72.3],["2025-08-26",72.5],["2025-09-15",73.7],["2025-10-06",73.0],["2025-10-24",74.8],["2025-11-13",75.4],["2025-12-03",76.7],["2025-12-24",75.8],["2026-01-15",75.4],["2026-02-04",74.4],["2026-02-25",74.3],["2026-03-17",72.4],["2026-04-07",74.9],["2026-04-27",76.5],["2026-05-18",76.6],["2026-06-05",80.5],["2026-06-25",80.5],["2026-07-16",80.3],["2026-08-05",80.7],["2026-08-25",80.4],["2026-09-14",79.4],["2026-10-05",80.1],["2026-10-14",82.2],["2026-10-23",82.2]]},{"code":"OTF","name":"One-timeframing","tot":118.0,"eq":[["2018-01-02",0.0],["2018-01-22",2.6],["2018-02-12",2.6],["2018-03-02",11.8],["2018-03-22",11.8],["2018-04-12",9.4],["2018-05-03",8.4],["2018-05-23",8.4],["2018-06-12",7.3],["2018-07-03",4.8],["2018-07-23",4.8],["2018-08-10",8.8],["2018-08-30",10.4],["2018-09-20",8.3],["2018-10-10",6.2],["2018-10-30",6.2],["2018-11-20",15.7],["2018-12-11",15.7],["2019-01-02",15.3],["2019-01-22",15.3],["2019-02-12",14.3],["2019-03-04",14.3],["2019-03-22",17.3],["2019-04-12",17.3],["2019-05-03",17.3],["2019-05-23",18.8],["2019-06-13",17.2],["2019-07-03",17.2],["2019-07-23",16.2],["2019-08-12",16.2],["2019-09-02",16.5],["2019-09-20",16.5],["2019-10-10",15.6],["2019-10-31",19.1],["2019-11-20",19.1],["2019-12-10",19.6],["2019-12-31",21.3],["2020-01-22",20.2],["2020-02-11",20.2],["2020-03-02",20.5],["2020-03-23",20.5],["2020-04-13",20.5],["2020-05-01",20.5],["2020-05-21",25.3],["2020-06-11",25.3],["2020-07-01",27.7],["2020-07-21",27.7],["2020-08-11",25.7],["2020-08-31",24.6],["2020-09-18",24.6],["2020-10-08",24.6],["2020-10-29",24.6],["2020-11-18",24.6],["2020-12-08",24.6],["2020-12-30",24.6],["2021-01-20",24.6],["2021-02-09",23.5],["2021-03-01",23.5],["2021-03-22",23.0],["2021-04-12",21.9],["2021-04-30",21.9],["2021-05-21",26.0],["2021-06-10",34.3],["2021-06-30",32.9],["2021-07-21",31.9],["2021-08-10",30.8],["2021-08-30",31.1],["2021-09-17",31.1],["2021-10-08",31.1],["2021-10-28",30.4],["2021-11-17",28.2],["2021-12-08",28.5],["2021-12-29",28.4],["2022-01-18",28.4],["2022-02-07",28.4],["2022-02-28",26.4],["2022-03-18",57.0],["2022-04-07",57.0],["2022-04-29",57.0],["2022-05-19",57.0],["2022-06-08",57.3],["2022-06-28",55.3],["2022-07-19",57.6],["2022-08-08",57.6],["2022-08-26",57.5],["2022-09-16",56.4],["2022-10-06",54.4],["2022-10-26",55.3],["2022-11-15",55.3],["2022-12-06",52.2],["2022-12-27",50.1],["2023-01-17",49.1],["2023-02-07",49.2],["2023-02-27",49.2],["2023-03-17",49.2],["2023-04-06",47.4],["2023-04-28",46.4],["2023-05-18",44.3],["2023-06-07",45.7],["2023-06-28",44.7],["2023-07-18",44.7],["2023-08-07",45.8],["2023-08-28",43.8],["2023-09-15",50.6],["2023-10-05",50.6],["2023-10-25",50.6],["2023-11-15",50.6],["2023-12-05",55.7],["2023-12-26",54.6],["2024-01-17",52.6],["2024-02-06",52.6],["2024-02-26",52.6],["2024-03-15",54.5],["2024-04-08",53.5],["2024-04-26",52.5],["2024-05-16",52.5],["2024-06-06",62.6],["2024-06-26",62.6],["2024-07-16",63.3],["2024-08-05",67.4],["2024-08-26",76.4],["2024-09-13",76.4],["2024-10-03",76.4],["2024-10-24",76.4],["2024-11-13",76.2],["2024-12-03",73.9],["2024-12-23",83.7],["2025-01-16",81.6],["2025-02-05",80.6],["2025-02-25",78.5],["2025-03-18",78.5],["2025-04-07",80.4],["2025-04-28",83.8],["2025-05-16",82.8],["2025-06-06",83.8],["2025-06-26",83.8],["2025-07-16",81.7],["2025-08-06",80.7],["2025-08-26",79.7],["2025-09-15",78.7],["2025-10-06",80.6],["2025-10-24",80.9],["2025-11-13",79.8],["2025-12-03",82.7],["2025-12-24",82.7],["2026-01-15",81.7],["2026-02-04",82.0],["2026-02-25",88.0],["2026-03-17",88.0],["2026-04-07",92.4],["2026-04-27",92.4],["2026-05-18",92.4],["2026-06-05",92.4],["2026-06-25",92.4],["2026-07-16",103.7],["2026-08-05",112.4],["2026-08-25",111.1],["2026-09-14",111.3],["2026-09-22",118.0],["2026-10-05",118.0],["2026-10-23",118.0]]},{"code":"VWP","name":"VWAP and order flow","tot":53.6,"eq":[["2023-10-25",0.0],["2023-11-01",0.0],["2023-11-07",0.0],["2023-11-14",-2.0],["2023-11-21",-2.1],["2023-11-29",-2.1],["2023-12-06",-2.1],["2023-12-13",-0.1],["2023-12-19",-1.2],["2023-12-27",-1.2],["2024-01-04",-1.2],["2024-01-10",-1.2],["2024-01-18",-1.2],["2024-01-25",-1.2],["2024-01-31",-1.2],["2024-02-07",-1.2],["2024-02-14",0.9],["2024-02-21",0.9],["2024-02-28",0.9],["2024-03-06",-0.1],["2024-03-12",-0.1],["2024-03-19",-0.1],["2024-03-26",-0.1],["2024-04-02",-0.1],["2024-04-09",-0.1],["2024-04-16",-1.1],["2024-04-22",-1.1],["2024-04-29",-1.1],["2024-05-06",-3.1],["2024-05-13",-3.1],["2024-05-17",-3.1],["2024-05-24",-3.1],["2024-06-03",-3.4],["2024-06-07",-4.4],["2024-06-14",-5.4],["2024-06-24",-5.4],["2024-06-28",-5.4],["2024-07-09",-5.4],["2024-07-16",-5.4],["2024-07-22",-0.7],["2024-07-29",-0.7],["2024-08-05",-0.7],["2024-08-09",-0.7],["2024-08-16",-0.6],["2024-08-23",-1.6],["2024-08-29",1.4],["2024-09-06",0.4],["2024-09-13",0.4],["2024-09-19",0.4],["2024-09-26",-1.6],["2024-10-03",-2.6],["2024-10-09",0.1],["2024-10-16",0.1],["2024-10-23",0.1],["2024-10-29",0.1],["2024-11-05",0.1],["2024-11-12",1.4],["2024-11-18",1.4],["2024-11-25",1.4],["2024-12-04",3.8],["2024-12-10",2.8],["2024-12-17",4.2],["2024-12-26",4.2],["2025-01-02",4.2],["2025-01-10",4.2],["2025-01-17",4.2],["2025-01-24",4.2],["2025-01-31",4.2],["2025-02-07",12.8],["2025-02-13",15.3],["2025-02-21",22.7],["2025-02-28",22.7],["2025-03-06",22.7],["2025-03-13",28.6],["2025-03-20",28.6],["2025-03-26",31.8],["2025-04-02",31.8],["2025-04-09",31.8],["2025-04-15",31.8],["2025-04-23",32.6],["2025-04-30",34.6],["2025-05-07",34.6],["2025-05-13",36.5],["2025-05-20",36.5],["2025-05-28",36.5],["2025-06-03",36.5],["2025-06-10",36.5],["2025-06-17",36.5],["2025-06-24",36.5],["2025-07-01",36.5],["2025-07-10",35.4],["2025-07-16",35.4],["2025-07-23",37.6],["2025-07-30",36.6],["2025-08-05",36.6],["2025-08-12",35.7],["2025-08-19",34.6],["2025-08-25",34.6],["2025-09-02",34.6],["2025-09-09",33.6],["2025-09-15",34.1],["2025-09-22",37.0],["2025-09-29",38.6],["2025-10-03",37.6],["2025-10-10",40.9],["2025-10-17",40.9],["2025-10-23",44.1],["2025-10-30",43.1],["2025-11-06",43.1],["2025-11-12",42.1],["2025-11-19",42.1],["2025-11-26",46.8],["2025-12-04",45.8],["2025-12-11",45.8],["2025-12-18",45.8],["2025-12-26",44.7],["2026-01-05",44.7],["2026-01-12",43.7],["2026-01-16",43.7],["2026-01-26",44.7],["2026-02-02",44.7],["2026-02-06",44.7],["2026-02-13",44.7],["2026-02-23",44.7],["2026-02-27",46.9],["2026-03-06",46.9],["2026-03-13",47.6],["2026-03-19",47.6],["2026-03-26",49.3],["2026-04-02",48.3],["2026-04-09",47.3],["2026-04-16",47.3],["2026-04-23",47.3],["2026-04-30",47.3],["2026-05-06",47.3],["2026-05-13",47.3],["2026-05-20",47.3],["2026-05-27",47.3],["2026-06-03",47.2],["2026-06-10",47.2],["2026-06-16",47.2],["2026-06-24",47.2],["2026-07-01",48.2],["2026-07-08",47.2],["2026-07-15",46.2],["2026-07-22",46.2],["2026-07-28",46.2],["2026-08-04",52.1],["2026-08-11",52.1],["2026-08-17",52.2],["2026-08-24",51.2],["2026-08-31",51.2],["2026-09-04",51.2],["2026-09-15",51.2],["2026-09-22",53.0],["2026-09-23",54.6],["2026-09-28",54.6],["2026-10-05",53.6],["2026-10-12",53.6],["2026-10-16",53.6],["2026-10-23",53.6]]},{"code":"WAL","name":"Gamma wall break","tot":33.0,"eq":[["2025-10-03",-1.0],["2025-10-07",-1.4],["2025-10-08",-1.4],["2025-10-10",-2.4],["2025-10-14",-3.4],["2025-10-16",-4.4],["2025-10-17",-4.4],["2025-10-21",-5.5],["2025-10-23",-3.5],["2025-10-24",-3.5],["2025-10-28",-0.8],["2025-10-30",-1.8],["2025-11-03",-1.8],["2025-11-04",-1.8],["2025-11-06",0.2],["2025-11-10",2.2],["2025-11-11",2.2],["2025-11-13",2.2],["2025-11-17",2.2],["2025-11-19",3.2],["2025-11-20",5.2],["2025-11-24",4.2],["2025-11-26",3.2],["2025-11-27",3.2],["2025-12-01",3.2],["2025-12-03",2.2],["2025-12-04",2.2],["2025-12-08",1.2],["2025-12-10",1.2],["2025-12-12",1.6],["2025-12-15",1.6],["2025-12-17",1.6],["2025-12-19",1.6],["2025-12-22",0.6],["2025-12-24",-0.4],["2025-12-29",-1.4],["2025-12-31",-1.4],["2026-01-02",-1.4],["2026-01-06",0.1],["2026-01-08",-0.9],["2026-01-09",0.3],["2026-01-13",0.9],["2026-01-15",-0.1],["2026-01-19",-1.1],["2026-01-20",-2.1],["2026-01-22",-2.1],["2026-01-26",-3.1],["2026-01-27",-2.2],["2026-01-29",-3.3],["2026-02-02",-3.3],["2026-02-04",0.7],["2026-02-05",-0.3],["2026-02-09",-0.3],["2026-02-11",-0.3],["2026-02-12",-0.3],["2026-02-16",-1.3],["2026-02-18",0.7],["2026-02-20",0.7],["2026-02-23",-0.3],["2026-02-25",-0.3],["2026-02-27",-0.3],["2026-03-02",-0.3],["2026-03-04",-1.3],["2026-03-06",-1.3],["2026-03-09",-1.3],["2026-03-11",0.7],["2026-03-13",2.7],["2026-03-17",2.7],["2026-03-18",1.7],["2026-03-20",2.7],["2026-03-24",1.7],["2026-03-25",1.7],["2026-03-27",5.7],["2026-03-31",4.7],["2026-04-02",5.7],["2026-04-06",5.7],["2026-04-08",4.6],["2026-04-10",3.6],["2026-04-13",5.6],["2026-04-15",9.6],["2026-04-17",10.6],["2026-04-21",10.6],["2026-04-22",12.6],["2026-04-24",14.6],["2026-04-28",14.6],["2026-04-29",13.6],["2026-05-01",16.2],["2026-05-05",15.5],["2026-05-07",16.5],["2026-05-08",18.5],["2026-05-12",18.5],["2026-05-14",21.3],["2026-05-15",21.3],["2026-05-19",20.3],["2026-05-21",19.3],["2026-05-25",18.3],["2026-05-26",17.3],["2026-05-28",18.7],["2026-06-01",19.7],["2026-06-02",18.7],["2026-06-04",18.7],["2026-06-08",18.7],["2026-06-09",20.7],["2026-06-11",19.7],["2026-06-15",17.7],["2026-06-17",17.7],["2026-06-18",17.7],["2026-06-22",16.7],["2026-06-24",17.6],["2026-06-25",17.6],["2026-06-29",16.6],["2026-07-01",18.6],["2026-07-03",20.6],["2026-07-06",20.6],["2026-07-08",22.6],["2026-07-10",21.6],["2026-07-13",21.6],["2026-07-15",20.6],["2026-07-17",18.6],["2026-07-21",18.6],["2026-07-22",18.6],["2026-07-24",22.6],["2026-07-28",23.6],["2026-07-29",23.6],["2026-07-31",23.6],["2026-08-04",25.6],["2026-08-06",25.6],["2026-08-07",24.6],["2026-08-11",24.6],["2026-08-13",26.6],["2026-08-14",26.6],["2026-08-18",26.6],["2026-08-20",26.6],["2026-08-24",25.6],["2026-08-25",25.6],["2026-08-27",25.6],["2026-08-31",25.6],["2026-09-01",25.6],["2026-09-03",25.6],["2026-09-07",24.6],["2026-09-08",24.6],["2026-09-10",24.6],["2026-09-14",24.6],["2026-09-16",24.6],["2026-09-17",24.6],["2026-09-21",26.6],["2026-09-23",28.6],["2026-09-24",28.6],["2026-09-28",27.6],["2026-09-30",27.6],["2026-10-02",27.6],["2026-10-05",28.6],["2026-10-07",28.0],["2026-10-09",28.0],["2026-10-12",28.0],["2026-10-14",30.0],["2026-10-16",31.0],["2026-10-20",31.0],["2026-10-21",31.0],["2026-10-22",33.0],["2026-10-23",33.0]]},{"code":"A1B","name":"Value-area breakout","tot":130.9,"eq":[["2018-01-02",0.0],["2018-01-22",1.5],["2018-02-12",3.4],["2018-03-02",7.1],["2018-03-22",6.5],["2018-04-12",8.0],["2018-05-03",8.2],["2018-05-23",5.2],["2018-06-12",7.7],["2018-07-03",5.7],["2018-07-23",3.7],["2018-08-10",7.1],["2018-08-30",5.7],["2018-09-20",5.6],["2018-10-10",4.7],["2018-10-30",8.0],["2018-11-20",7.6],["2018-12-11",9.3],["2019-01-02",9.4],["2019-01-22",10.2],["2019-02-12",11.9],["2019-03-04",11.9],["2019-03-22",13.8],["2019-04-12",15.3],["2019-05-03",16.8],["2019-05-23",19.8],["2019-06-13",22.2],["2019-07-03",22.1],["2019-07-23",23.6],["2019-08-12",20.3],["2019-09-02",23.3],["2019-09-20",26.3],["2019-10-10",27.2],["2019-10-31",28.6],["2019-11-20",31.7],["2019-12-10",32.7],["2019-12-31",32.7],["2020-01-22",36.1],["2020-02-11",36.7],["2020-03-02",40.6],["2020-03-23",39.1],["2020-04-13",40.5],["2020-05-01",39.5],["2020-05-21",40.4],["2020-06-11",43.0],["2020-07-01",42.5],["2020-07-21",40.6],["2020-08-11",40.5],["2020-08-31",39.4],["2020-09-18",38.4],["2020-10-08",39.5],["2020-10-29",44.6],["2020-11-18",46.2],["2020-12-08",47.9],["2020-12-30",48.3],["2021-01-20",47.9],["2021-02-09",47.7],["2021-03-01",49.7],["2021-03-22",52.8],["2021-04-12",52.6],["2021-04-30",56.3],["2021-05-21",57.3],["2021-06-10",54.8],["2021-06-30",58.1],["2021-07-21",56.0],["2021-08-10",57.9],["2021-08-30",59.2],["2021-09-17",57.5],["2021-10-08",55.2],["2021-10-28",58.6],["2021-11-17",61.6],["2021-12-08",62.9],["2021-12-29",64.2],["2022-01-18",66.7],["2022-02-07",63.7],["2022-02-28",65.0],["2022-03-18",66.2],["2022-04-07",66.5],["2022-04-29",69.1],["2022-05-19",68.9],["2022-06-08",73.3],["2022-06-28",73.9],["2022-07-19",76.1],["2022-08-08",78.8],["2022-08-26",81.8],["2022-09-16",80.3],["2022-10-06",82.2],["2022-10-26",84.7],["2022-11-15",84.8],["2022-12-06",88.8],["2022-12-27",89.4],["2023-01-17",91.9],["2023-02-07",96.5],["2023-02-27",95.7],["2023-03-17",95.2],["2023-04-06",93.0],["2023-04-28",93.1],["2023-05-18",92.7],["2023-06-07",94.6],["2023-06-28",96.6],["2023-07-18",97.6],["2023-08-07",97.1],["2023-08-28",95.6],["2023-09-15",95.9],["2023-10-05",94.5],["2023-10-25",96.3],["2023-11-15",96.1],["2023-12-05",95.8],["2023-12-26",95.1],["2024-01-17",95.7],["2024-02-06",97.2],["2024-02-26",97.0],["2024-03-15",95.9],["2024-04-08",94.0],["2024-04-26",97.6],["2024-05-16",99.0],["2024-06-06",97.4],["2024-06-26",96.3],["2024-07-16",95.8],["2024-08-05",98.1],["2024-08-26",101.0],["2024-09-13",100.9],["2024-10-03",99.9],["2024-10-24",100.1],["2024-11-13",102.7],["2024-12-03",104.3],["2024-12-23",105.3],["2025-01-16",107.9],["2025-02-05",108.5],["2025-02-25",108.5],["2025-03-18",109.1],["2025-04-07",111.6],["2025-04-28",115.6],["2025-05-16",116.7],["2025-06-06",117.9],["2025-06-26",119.5],["2025-07-16",118.1],["2025-08-06",118.7],["2025-08-26",119.7],["2025-09-15",119.9],["2025-10-06",121.4],["2025-10-24",118.4],["2025-11-13",118.2],["2025-12-03",118.5],["2025-12-24",118.4],["2026-01-15",119.3],["2026-02-04",116.7],["2026-02-25",119.8],["2026-03-17",118.8],["2026-04-07",120.8],["2026-04-27",118.8],["2026-05-18",122.0],["2026-06-05",126.4],["2026-06-25",128.0],["2026-07-16",129.6],["2026-08-05",132.5],["2026-08-11",132.9],["2026-08-25",132.3],["2026-09-14",128.0],["2026-10-05",126.4],["2026-10-23",130.9]]}]}</script>
@@ -225,93 +147,64 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px calc(28px + env(
   const D = JSON.parse(document.getElementById("site-data").textContent);
   const COL = { ORB: "#E8C547", ODR: "#E8833A", IBX: "#A77BE0", OTF: "#5CC98A", VWP: "#D9609E", WAL: "#4FB8C9", A1B: "#B5CF5A" };
   const fR = v => (v < 0 ? "−" : "+") + Math.abs(v).toFixed(0) + "R";
-
-  // seven curves on one time axis, drawn at the figure's real pixel width so labels stay 11px on phones;
-  // the first time the section scrolls into view they draw left to right on one shared sweep
-  const fig = document.getElementById("fig"), reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const C = D.combined, fwd = (D.fwd >= 0 ? "+" : "−") + Math.abs(D.fwd).toFixed(1) + "R";
+  const TEXT = `Seven intraday models for Nasdaq-100 futures, built from Market Profile, order flow and options positioning, and tested on one-minute CME data from 2018 to 2026 after costs. Each line is one model's running total. Together they made ${C.n.toLocaleString("en-US")} trades and ${fR(C.tot)}, with a profit factor of ${C.pf.toFixed(2)} and a Sharpe ratio of ${C.sharpe.toFixed(2)}. Since the rules were frozen on October 23 they have added ${fwd}.`;
+  const flow = document.getElementById("flow"), cv = document.getElementById("flow-cv"), lines = document.getElementById("flow-lines"), plain = document.getElementById("flow-plain");
+  plain.textContent = TEXT;
   const t0 = Date.parse("2018-01-01"), t1 = Date.parse(D.end), top = Math.max(...D.strategies.map(s => s.tot));
-  let played = reduce;
-  function draw() {
-    const W = Math.max(300, fig.clientWidth), H = W < 600 ? 240 : 300, ml = 4, mr = 92, mt = 14, mb = 26;
-    const X = d => ml + (Date.parse(d) - t0) / (t1 - t0) * (W - ml - mr), Y = v => H - mb - 8 - v / top * (H - mt - mb - 8);
-    const ends = [];
-    let svg = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Cumulative R by model, 2018 to 2026">
-      <line class="ax" x1="${ml}" x2="${W - mr}" y1="${Y(0)}" y2="${Y(0)}"/>`;
-    for (const y of W < 600 ? [2018, 2022, 2026] : [2018, 2020, 2022, 2024, 2026]) svg += `<text x="${X(y + "-01-01")}" y="${H - 6}">${y}</text>`;
-    for (const s of D.strategies) {
-      const d = s.eq.map(([t, v], i) => `${i ? "L" : "M"}${X(t).toFixed(1)},${Y(v).toFixed(1)}`).join("");
-      svg += `<path class="c" d="${d}" stroke="${COL[s.code]}" style="color:${COL[s.code]}" data-x0="${X(s.eq[0][0])}"/>`;
-      ends.push({ y: Y(s.eq[s.eq.length - 1][1]), text: `${s.code} ${fR(s.tot)}`, c: COL[s.code] });
-    }
-    ends.sort((a, b) => a.y - b.y); for (let i = 1; i < ends.length; i++) ends[i].y = Math.max(ends[i].y, ends[i - 1].y + 14);  // keep labels apart
-    for (const e of ends) svg += `<text class="end" x="${W - mr + 10}" y="${e.y + 4}"><tspan fill="${e.c}">●</tspan> ${e.text}</text>`;
-    fig.innerHTML = svg + "</svg>";
-    const paths = [...fig.querySelectorAll("path.c")], labels = [...fig.querySelectorAll("text.end")];
-    paths.forEach(p => { const L = p.getTotalLength(); p.style.strokeDasharray = L; p.style.strokeDashoffset = played ? 0 : L; });
-    labels.forEach(t => t.style.opacity = played ? 1 : 0);
-    return { paths, labels, x0: ml, x1: W - mr };
-  }
-  function play() {
-    const { paths, labels, x0, x1 } = draw(), T = 2600, st = performance.now();
-    const step = now => {
-      const r = Math.min(1, (now - st) / T), cut = x0 + r * (x1 - x0);
-      paths.forEach(p => {
-        const L = p.getTotalLength(), xs = +p.dataset.x0;
-        if (cut <= xs) { p.style.strokeDashoffset = L; return; }
-        let lo = 0, hi = L; for (let k = 0; k < 18; k++) { const m = (lo + hi) / 2; if (p.getPointAtLength(m).x < cut) lo = m; else hi = m; }
-        p.style.strokeDashoffset = L - lo;
-      });
-      if (r < 1) requestAnimationFrame(step);
-      else { played = true; paths.forEach(p => p.style.strokeDashoffset = 0); labels.forEach(t => { t.style.transition = "opacity .5s"; t.style.opacity = 1; }); }
-    };
-    requestAnimationFrame(step);
-  }
-  draw();
-  if (!played) {
-    if ("IntersectionObserver" in window) { const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { io.disconnect(); play(); } }, { threshold: 0.35 }); io.observe(fig); }
-    else { played = true; draw(); }
-  }
-  let rz; addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => { if (played) draw(); }, 150); });
-
-  const C = D.combined;
-  document.getElementById("nums").innerHTML = [["Trades", C.n.toLocaleString("en-US")], ["Total", fR(C.tot)], ["Profit factor", C.pf.toFixed(2)], ["Sharpe", C.sharpe.toFixed(2)], ["Since Oct 23, live rules", (D.fwd >= 0 ? "+" : "−") + Math.abs(D.fwd).toFixed(1) + "R"]]
-    .map(([a, b]) => `<div><dt>${a}</dt><dd>${b}</dd></div>`).join("");
-
-  // sky: a few hundred specks drifting up and sideways at three depths; still for reduced motion
-  (() => {
-    const cv = document.getElementById("sky"), g = cv.getContext("2d"), dpr = Math.min(2, devicePixelRatio || 1);
-    let W = 0, H = 0, P = [];
-    const tint = ["#8E8A82", "#B4AFA5", "#D8D3C8", "#C9A86A", "#B4AFA5"];
-    const size = () => { W = cv.clientWidth; H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr; g.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const n = Math.round(W * H / (W < 600 ? 9000 : 7000)); P = Array.from({ length: n }, () => { const z = Math.random();
-        return { x: Math.random() * W, y: Math.random() * H, z, r: .35 + z * .8, a: .12 + z * .33, c: Math.random() < .04 ? tint[3 + (Math.random() * 2 | 0)] : tint[Math.random() * 3 | 0], ph: Math.random() * 6.28 }; }); };
-    let mx = 0, my = 0; addEventListener("pointermove", e => { mx = e.clientX / innerWidth - .5; my = e.clientY / innerHeight - .5; }, { passive: true });
-    const draw = t => {
-      g.clearRect(0, 0, W, H);
-      for (const q of P) {
-        if (!reduce) { q.y -= (.02 + q.z * .07); q.x += .015 + q.z * .025; if (q.y < -4) q.y = H + 4; if (q.x > W + 4) q.x = -4; }
-        const x = q.x + mx * q.z * 8, y = q.y + my * q.z * 5, tw = reduce ? 1 : .75 + .25 * Math.sin(t / 900 + q.ph);
-        g.globalAlpha = q.a * tw; g.fillStyle = q.c; g.beginPath(); g.arc(x, y, q.r, 0, 6.283); g.fill();
+  // each model's value at a date (its last point on or before it); null before its data starts
+  const series = D.strategies.map(s => ({ c: COL[s.code], code: s.code, tot: s.tot, pts: s.eq.map(([d, v]) => [Date.parse(d), v]) }));
+  const at = (sr, t) => { if (t < sr.pts[0][0]) return null; let lo = 0, hi = sr.pts.length - 1; while (lo < hi) { const m = (lo + hi + 1) >> 1; if (sr.pts[m][0] <= t) lo = m; else hi = m - 1; } return sr.pts[lo][1]; };
+  let PT = null;
+  function layout() {
+    const W = flow.clientWidth, narrow = W < 560, LH = 29, mr = narrow ? 0 : 100, FONT = '400 18px "Source Serif 4"';
+    const CH = narrow ? 200 : 250;                       // height of the band the curves rise through
+    const tAt = x => t0 + x / (W - mr) * (t1 - t0);
+    let H = 0, out = null;
+    if (PT && !narrow) {
+      const prep = PT.prepareWithSegments(TEXT, FONT);
+      for (let Ht = CH + 60, tries = 0; tries < 24 && !out; tries++, Ht += 18) {
+        const Yv = v => Ht - 22 - v / top * (CH - 22);
+        // the highest curve at x, so a line of text ends before any curve reaches its baseline
+        const envY = x => { let y = Infinity; const t = tAt(x); for (const sr of series) { const v = at(sr, t); if (v != null) y = Math.min(y, Yv(v)); } return y; };
+        let cur = { segmentIndex: 0, graphemeIndex: 0 }, y = 4; const got = [];
+        for (;;) {
+          const bottom = y + LH; let xc = W - mr;
+          for (let x = 0; x < W - mr; x += 4) if (envY(x) <= bottom + 6) { xc = x; break; }
+          const width = xc - 20; if (width < 160) break;
+          const r = PT.layoutNextLineRange(prep, width, cur); if (r === null) { out = got; H = Ht; break; }
+          got.push({ y, text: PT.materializeLineRange(prep, r).text }); cur = r.end; y += LH;
+        }
       }
-      g.globalAlpha = 1;
-      if (!reduce && running) requestAnimationFrame(draw);
-    };
-    let running = true;
-    size(); requestAnimationFrame(draw);
-    let rs; addEventListener("resize", () => { clearTimeout(rs); rs = setTimeout(() => { size(); if (reduce) draw(0); }, 150); });
-    // pause while the tab is hidden
-    document.addEventListener("visibilitychange", () => { const v = !document.hidden; if (v && !running) { running = true; requestAnimationFrame(draw); } running = v; });
-  })();
-
-  // nav: light up the section in view
-  const links = [...document.querySelectorAll('.top nav a[href^="#"]')], secs = links.map(a => document.querySelector(a.getAttribute("href")));
-  const lit = () => { let k = -1; secs.forEach((s, i) => { if (s && s.getBoundingClientRect().top < innerHeight * .4) k = i; }); links.forEach((a, i) => a.classList.toggle("on", i === k)); };
-  addEventListener("scroll", lit, { passive: true }); lit();
-
+    }
+    if (out) {
+      flow.classList.add("laid"); flow.style.height = H + "px"; lines.innerHTML = "";
+      for (const L of out) { const s = document.createElement("span"); s.textContent = L.text; s.style.top = L.y + "px"; lines.appendChild(s); }
+    } else { flow.classList.remove("laid"); lines.innerHTML = ""; flow.style.height = ""; plain.style.paddingBottom = (CH + 16) + "px"; H = flow.clientHeight; }
+    // the curves, along the bottom band, with each model's code and total at its end
+    const Yv = v => H - 22 - v / top * (CH - 22), dpr = Math.min(2, devicePixelRatio || 1);
+    cv.width = W * dpr; cv.height = H * dpr; const g = cv.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, W, H);
+    g.strokeStyle = "#262523"; g.lineWidth = 1; g.beginPath(); g.moveTo(0, Yv(0) + .5); g.lineTo(W - mr, Yv(0) + .5); g.stroke();
+    g.font = '400 12px "Source Serif 4"'; g.fillStyle = "#77746D";
+    for (const yr of narrow ? [2018, 2026] : [2018, 2022, 2026]) g.fillText(String(yr), (Date.parse(yr + "-01-01") - t0) / (t1 - t0) * (W - mr), H - 4);
+    const ends = [];
+    for (const sr of series) {
+      g.strokeStyle = sr.c; g.lineWidth = 1.5; g.lineJoin = "round"; g.beginPath();
+      sr.pts.forEach(([t, v], i) => { const x = (t - t0) / (t1 - t0) * (W - mr), y = Yv(v); i ? g.lineTo(x, y) : g.moveTo(x, y); }); g.stroke();
+      ends.push({ y: Yv(sr.pts[sr.pts.length - 1][1]), sr });
+    }
+    if (!narrow) {
+      ends.sort((a, b) => a.y - b.y); for (let i = 1; i < ends.length; i++) ends[i].y = Math.max(ends[i].y, ends[i - 1].y + 14);
+      for (const e of ends) { g.fillStyle = e.sr.c; g.fillText("—", W - mr + 8, e.y + 4); g.fillStyle = "#A9A59C"; g.fillText(`${e.sr.code} ${fR(e.sr.tot)}`, W - mr + 24, e.y + 4); }
+    }
+  }
+  const run = () => { try { layout(); } catch (e) { console.warn(e); } };
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(run);
+  import("https://cdn.jsdelivr.net/npm/@chenglou/pretext@1.0.0/dist/layout.js").then(m => { PT = m; run(); }, () => {});
+  let fw = 0; new ResizeObserver(() => { if (flow.clientWidth !== fw) { fw = flow.clientWidth; requestAnimationFrame(run); } }).observe(flow);
   document.querySelectorAll(".copy").forEach(b => b.addEventListener("click", () => {
-    const v = b.dataset.copy, done = () => { b.textContent = "Copied"; setTimeout(() => b.textContent = "Copy", 1600); };
-    const sel = () => { const r = document.createRange(); r.selectNodeContents(b.previousElementSibling); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = "Selected"; setTimeout(() => b.textContent = "Copy", 1600); };
-    try { navigator.clipboard.writeText(v).then(done, sel); } catch (e) { sel(); }
+    const done = t => { b.textContent = t; setTimeout(() => b.textContent = "copy", 1600); };
+    try { navigator.clipboard.writeText(b.dataset.copy).then(() => done("copied"), () => done("select it")); } catch (e) { done("select it"); }
   }));
 })();
 </script>
