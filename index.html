@@ -38,6 +38,10 @@ a:hover { color: var(--acc); text-decoration-color: var(--acc); }
 .top nav a { color: var(--w2); text-decoration: none; padding: 6px 0; border-bottom: 1.5px solid transparent; }
 .top nav a:hover { color: var(--w); }
 .top nav a.on { color: var(--acc); border-bottom-color: var(--acc); }
+.top nav a.pill { color: var(--acc); border: 1px solid var(--acc); border-radius: 3px; padding: 6px 10px; margin: -1px 0; }
+.top nav a.pill:hover { background: var(--acc); color: var(--k); }
+.hero-go { margin-top: 26px; }
+.go a { background: rgba(2, 4, 12, .6); }
 
 /* background: a quiet version of the models page's night sky, a faint blue glow and sparse slow dust, fixed behind the whole page */
 main { position: relative; }
@@ -109,7 +113,7 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px calc(28px + env(
   <div class="wrap">
     <a class="mark" href="#top">Mustafa Hassan</a>
     <nav aria-label="Sections">
-      <a href="#academics">Academics</a><a href="#awards">Awards</a><a href="#experience">Experience</a><a class="keep" href="#trading">Trading</a><a class="keep" href="#contact">Contact</a>
+      <a href="#academics">Academics</a><a href="#awards">Awards</a><a href="#experience">Experience</a><a href="#trading">Trading</a><a href="#contact">Contact</a><a class="keep pill" href="trades/">Every trade</a>
     </nav>
   </div>
 </header>
@@ -121,6 +125,7 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px calc(28px + env(
       <h1 id="h-name">Mustafa<br>Hassan</h1>
       <p class="lede">High school student in McKinney, Texas. I build quantitative trading models for Nasdaq-100 futures, compete in math, economics and trading, and help run student finance organizations.</p>
       <ul class="meta"><li>Emerson High School</li><li>Top 10% of class</li><li>National Honor Society</li><li>AIME qualifier</li></ul>
+      <div class="go hero-go"><a class="main" href="models/">Explore the models →</a><a href="trades/">Every trade</a><a href="NQTM.pdf" target="_blank" rel="noopener">Research paper (PDF) ↗</a></div>
     </section>
 
     <section class="blk" id="academics" aria-labelledby="h-ac">
@@ -300,7 +305,7 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px calc(28px + env(
   })();
 
   // nav: light up the section in view
-  const links = [...document.querySelectorAll(".top nav a")], secs = links.map(a => document.querySelector(a.getAttribute("href")));
+  const links = [...document.querySelectorAll('.top nav a[href^="#"]')], secs = links.map(a => document.querySelector(a.getAttribute("href")));
   const lit = () => { let k = -1; secs.forEach((s, i) => { if (s && s.getBoundingClientRect().top < innerHeight * .4) k = i; }); links.forEach((a, i) => a.classList.toggle("on", i === k)); };
   addEventListener("scroll", lit, { passive: true }); lit();
 
