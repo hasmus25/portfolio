@@ -9,20 +9,27 @@
 </head>
 <body>
 <title>Mustafa Hassan</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&display=swap">
 <style>
-/* Clean draft of the home page: one serif family, sentence case, one narrow column, plain text links, flat near-black.
-   The only colour is in the trading chart, where each line is a real model. */
+/* Home page: the system sans-serif, white on true black, sentence case, one narrow column, plain text links.
+   The only colour is in the trading chart, where each line is a real model. Other skins (white, paper) stay available
+   through data-skin on <html> but are not used. */
 :root {
-  --bg: #0E0E0F; --fg: #E9E6DF; --fg2: #A9A59C; --fg3: #77746D; --rule: #262523;
-  --serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+  --bg: #000000; --fg: #FFFFFF; --fg2: #BDBDBD; --fg3: #8A8A8A; --rule: #2A2A2A; --ul: #6E6E6E;
+  --serif: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;  /* the system sans; name kept for the CSS below */
   color-scheme: dark;
 }
+/* plain skins: system fonts and true black/white, set by SKIN in the script */
+:root[data-skin="white"] { --bg: #FFFFFF; --fg: #111111; --fg2: #474747; --fg3: #767676; --rule: #E4E4E4; --ul: #B5B5B5;
+  --serif: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif; color-scheme: light; }
+:root[data-skin="black"] { --bg: #000000; --fg: #FFFFFF; --fg2: #BDBDBD; --fg3: #8A8A8A; --rule: #2A2A2A; --ul: #6E6E6E;
+  --serif: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif; color-scheme: dark; }
+:root[data-skin="paper"] { --bg: #FFFFFF; --fg: #111111; --fg2: #333333; --fg3: #6B6B6B; --rule: #E4E4E4; --ul: #0645AD;
+  --serif: "Times New Roman", Times, serif; color-scheme: light; }
+:root[data-skin="paper"] a { color: #0645AD; }
+:root[data-skin="white"] body::after, :root[data-skin="paper"] body::after { display: none; }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--fg); font: 400 18px/1.6 var(--serif); font-optical-sizing: auto; -webkit-font-smoothing: antialiased; }
-a { color: var(--fg); text-decoration: underline; text-decoration-color: #55524C; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a { color: var(--fg); text-decoration: underline; text-decoration-color: var(--ul); text-decoration-thickness: 1px; text-underline-offset: 3px; }
 a:hover { text-decoration-color: var(--fg); }
 :focus-visible { outline: 1px solid var(--fg); outline-offset: 3px; }
 main { max-width: 700px; margin: 0 auto; padding: clamp(56px, 12vh, 120px) max(22px, env(safe-area-inset-right, 0px)) 80px max(22px, env(safe-area-inset-left, 0px)); }
@@ -145,7 +152,11 @@ footer { margin-top: 72px; padding-top: 16px; border-top: 1px solid var(--rule);
 <script>
 (() => {
   const D = JSON.parse(document.getElementById("site-data").textContent);
-  const COL = { ORB: "#E8C547", ODR: "#E8833A", IBX: "#A77BE0", OTF: "#5CC98A", VWP: "#D9609E", WAL: "#4FB8C9", A1B: "#B5CF5A" };
+  const SKIN = document.documentElement.dataset.skin || "";
+  const LIGHT = SKIN === "white" || SKIN === "paper";
+  const COL = LIGHT ? { ORB: "#B8860B", ODR: "#D2691E", IBX: "#7B4FBF", OTF: "#2E8B57", VWP: "#C2185B", WAL: "#1F7A99", A1B: "#6B8E23" }
+                    : { ORB: "#E8C547", ODR: "#E8833A", IBX: "#A77BE0", OTF: "#5CC98A", VWP: "#D9609E", WAL: "#4FB8C9", A1B: "#B5CF5A" };
+  const cssv = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
   const fR = v => (v < 0 ? "−" : "+") + Math.abs(v).toFixed(0) + "R";
   const C = D.combined, fwd = (D.fwd >= 0 ? "+" : "−") + Math.abs(D.fwd).toFixed(1) + "R";
   const TEXT = `Seven intraday models for Nasdaq-100 futures, built from Market Profile, order flow and options positioning, and tested on one-minute CME data from 2018 to 2026 after costs. Each line is one model's running total. Together they made ${C.n.toLocaleString("en-US")} trades and ${fR(C.tot)}, with a profit factor of ${C.pf.toFixed(2)} and a Sharpe ratio of ${C.sharpe.toFixed(2)}. Since the rules were frozen on October 23 they have added ${fwd}.`;
@@ -157,7 +168,7 @@ footer { margin-top: 72px; padding-top: 16px; border-top: 1px solid var(--rule);
   const at = (sr, t) => { if (t < sr.pts[0][0]) return null; let lo = 0, hi = sr.pts.length - 1; while (lo < hi) { const m = (lo + hi + 1) >> 1; if (sr.pts[m][0] <= t) lo = m; else hi = m - 1; } return sr.pts[lo][1]; };
   let PT = null;
   function layout() {
-    const W = flow.clientWidth, narrow = W < 560, LH = 29, mr = narrow ? 0 : 100, FONT = '400 18px "Source Serif 4"';
+    const W = flow.clientWidth, narrow = W < 560, LH = 29, mr = narrow ? 0 : 100, FAM = getComputedStyle(document.body).fontFamily, FONT = `400 18px ${FAM}`;
     const CH = narrow ? 200 : 250;                       // height of the band the curves rise through
     const tAt = x => t0 + x / (W - mr) * (t1 - t0);
     let H = 0, out = null;
@@ -184,8 +195,8 @@ footer { margin-top: 72px; padding-top: 16px; border-top: 1px solid var(--rule);
     // the curves, along the bottom band, with each model's code and total at its end
     const Yv = v => H - 22 - v / top * (CH - 22), dpr = Math.min(2, devicePixelRatio || 1);
     cv.width = W * dpr; cv.height = H * dpr; const g = cv.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, W, H);
-    g.strokeStyle = "#262523"; g.lineWidth = 1; g.beginPath(); g.moveTo(0, Yv(0) + .5); g.lineTo(W - mr, Yv(0) + .5); g.stroke();
-    g.font = '400 12px "Source Serif 4"'; g.fillStyle = "#77746D";
+    g.strokeStyle = cssv("--rule"); g.lineWidth = 1; g.beginPath(); g.moveTo(0, Yv(0) + .5); g.lineTo(W - mr, Yv(0) + .5); g.stroke();
+    g.font = `400 12px ${FAM}`; g.fillStyle = cssv("--fg3");
     for (const yr of narrow ? [2018, 2026] : [2018, 2022, 2026]) g.fillText(String(yr), (Date.parse(yr + "-01-01") - t0) / (t1 - t0) * (W - mr), H - 4);
     const ends = [];
     for (const sr of series) {
@@ -195,7 +206,7 @@ footer { margin-top: 72px; padding-top: 16px; border-top: 1px solid var(--rule);
     }
     if (!narrow) {
       ends.sort((a, b) => a.y - b.y); for (let i = 1; i < ends.length; i++) ends[i].y = Math.max(ends[i].y, ends[i - 1].y + 14);
-      for (const e of ends) { g.fillStyle = e.sr.c; g.fillText("—", W - mr + 8, e.y + 4); g.fillStyle = "#A9A59C"; g.fillText(`${e.sr.code} ${fR(e.sr.tot)}`, W - mr + 24, e.y + 4); }
+      for (const e of ends) { g.fillStyle = e.sr.c; g.fillText("—", W - mr + 8, e.y + 4); g.fillStyle = cssv("--fg2"); g.fillText(`${e.sr.code} ${fR(e.sr.tot)}`, W - mr + 24, e.y + 4); }
     }
   }
   const run = () => { try { layout(); } catch (e) { console.warn(e); } };
