@@ -64,6 +64,8 @@ body::after { content: ""; position: fixed; inset: -50%; pointer-events: none; z
 
 .copy { font: 400 14px var(--serif); color: var(--fg3); background: none; border: 0; padding: 0 0 0 10px; cursor: pointer; text-decoration: underline; text-decoration-color: #3A3834; text-underline-offset: 3px; }
 .copy:hover { color: var(--fg); }
+/* lowercase for the framing (section titles, link rows, dates); names and descriptions keep their capitals */
+h2, .links a, .cap a, .row time, .row .when { text-transform: lowercase; }
 footer { margin-top: 72px; padding-top: 16px; border-top: 1px solid var(--rule); color: var(--fg3); font-size: 14px; }
 @media (max-width: 560px) { body { font-size: 17px; } .list p, .course, .cap { font-size: 16px; } }
 </style>
