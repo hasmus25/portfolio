@@ -41,12 +41,14 @@ a:hover { color: var(--acc); text-decoration-color: var(--acc); }
 .hero { padding-block: clamp(64px, 12vh, 120px) clamp(48px, 8vh, 84px); }
 .hero h1 { font: 400 clamp(40px, 8.4vw, 104px)/.98 var(--wide); letter-spacing: -.01em; margin: 0 0 28px; text-wrap: balance; }
 .hero .lede { font: 300 clamp(18px, 2.1vw, 22px)/1.5 var(--sans); color: var(--w2); max-width: 46ch; margin: 0; text-wrap: pretty; }
-.hero .meta { margin: 26px 0 0; display: flex; flex-wrap: wrap; gap: 8px 22px; font: 400 12px/1.4 var(--mono); color: var(--g); letter-spacing: .04em; }
-.hero .meta b { color: var(--w); font-weight: 400; }
+/* the headline facts, as chips so they read at a glance */
+.hero .meta { margin: 30px 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 10px; }
+.hero .meta li { display: inline-flex; align-items: center; gap: 9px; padding: 10px 14px; border: 1px solid #2E313D; border-radius: 3px; background: var(--k2); font: 500 15px/1.2 var(--sans); color: var(--w); }
+.hero .meta li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--acc); box-shadow: 0 0 8px var(--acc); flex: none; }
 
 section.blk { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 20px 48px; padding-block: 52px; border-top: 1px solid var(--rule); }
-.lab { font: 400 11px/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--g); margin: 0; position: sticky; top: 84px; align-self: start; }
-.lab span { color: var(--w); margin-right: 10px; }
+.lab { font: 400 14px/1.4 var(--wide); letter-spacing: .08em; text-transform: uppercase; color: var(--w); margin: 0; position: sticky; top: 84px; align-self: start; }
+.lab span { display: block; font: 400 11px/1 var(--mono); color: var(--acc); letter-spacing: .1em; margin-bottom: 10px; }
 h2 { font: 400 clamp(20px, 2.4vw, 26px)/1.2 var(--wide); margin: 0 0 8px; letter-spacing: .01em; }
 .list { margin: 0; padding: 0; list-style: none; display: grid; gap: 30px; }
 .it { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 24px; }
@@ -88,6 +90,7 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px calc(28px + env(
   .lab { position: static; }
   .it { grid-template-columns: minmax(0, 1fr); }
   .top nav a:not(.keep) { display: none; }
+  .hero .meta { gap: 8px; } .hero .meta li { padding: 8px 11px; font-size: 13.5px; gap: 7px; }
 }
 </style>
 
@@ -105,7 +108,7 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px calc(28px + env(
     <section class="hero" aria-labelledby="h-name">
       <h1 id="h-name">Mustafa<br>Hassan</h1>
       <p class="lede">High school student in McKinney, Texas. I build quantitative trading models for Nasdaq-100 futures, compete in math, economics and trading, and help run student finance organizations.</p>
-      <p class="meta"><span><b>Emerson High School</b></span><span>Top 10% · National Honor Society</span><span>AIME qualifier</span></p>
+      <ul class="meta"><li>Emerson High School</li><li>Top 10% of class</li><li>National Honor Society</li><li>AIME qualifier</li></ul>
     </section>
 
     <section class="blk" id="academics" aria-labelledby="h-ac">
@@ -173,7 +176,7 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px calc(28px + env(
         <div class="go">
           <a class="main" id="go-models" href="models/">Explore the models →</a>
           <a id="go-trades" href="trades/">Every trade</a>
-          <a id="go-research" href="research/">Research write-up</a>
+          <a id="go-research" href="NQTM.pdf" target="_blank" rel="noopener">Research paper (PDF) ↗</a>
         </div>
       </div>
     </section>
