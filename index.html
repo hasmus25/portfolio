@@ -60,6 +60,9 @@ h2 { font: 400 clamp(20px, 2.4vw, 26px)/1.2 var(--wide); margin: 0 0 8px; letter
 .courses { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px 36px; margin-top: 22px; }
 .courses h4 { font: 400 11px/1.4 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--g); margin: 0 0 8px; }
 .courses ul { margin: 0; padding: 0; list-style: none; columns: 2 130px; column-gap: 20px; color: var(--w2); font-size: 15px; line-height: 1.75; }
+.courses.extra { margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--rule); }
+.courses ul.graded { columns: auto; display: flex; flex-wrap: wrap; gap: 6px 32px; }
+.courses ul.graded b { font: 400 12px/1 var(--mono); color: var(--acc); margin-left: 8px; letter-spacing: .04em; }
 
 /* trading research: the seven curves, drawn when the section comes into view */
 .tr-fig { position: relative; margin: 6px 0 22px; }
@@ -121,6 +124,9 @@ footer { border-top: 1px solid var(--rule); padding-block: 28px calc(28px + env(
         <div class="courses">
           <div><h4>AP courses completed · 98.5 average</h4><ul><li>Physics 1</li><li>Precalculus</li><li>Seminar</li><li>World History</li><li>Environmental Science</li><li>Psychology</li><li>Human Geography</li><li>Computer Science Principles</li></ul></div>
           <div><h4>AP courses this year</h4><ul><li>Computer Science A</li><li>Calculus BC</li><li>Physics 2</li><li>Statistics</li><li>Biology</li><li>U.S. History</li><li>English Language</li></ul></div>
+        </div>
+        <div class="courses extra">
+          <div><h4>Extra relevant coursework</h4><ul class="graded"><li>Accounting 1 <b>100</b></li><li>INCubator <b>98</b></li></ul></div>
         </div>
       </div>
     </section>
