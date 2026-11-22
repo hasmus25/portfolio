@@ -175,7 +175,7 @@ async function run() {
 
   /* faint dust in the void, for depth */
   {
-    const n = 900, p = new Float32Array(n * 3); for (let i = 0; i < n; i++) { p[i * 3] = (Math.random() - .5) * 60; p[i * 3 + 1] = (Math.random() - .5) * 36; p[i * 3 + 2] = -Math.random() * 40 - 4; }
+    const n = 1400, p = new Float32Array(n * 3); for (let i = 0; i < n; i++) { p[i * 3] = (Math.random() - .5) * 60; p[i * 3 + 1] = (Math.random() - .5) * 36; p[i * 3 + 2] = -Math.random() * 40 - 4; }
     const g = new THREE.BufferGeometry(); g.setAttribute("position", new THREE.BufferAttribute(p, 3));
     scene.add(new THREE.Points(g, new THREE.PointsMaterial({ color: 0x5A6080, size: 0.05, transparent: true, opacity: 0.8 })));
   }
@@ -369,7 +369,7 @@ async function run() {
   objs.forEach((o, k) => o.g.position.copy(POS[k]));
   // every stop has its own setting; scroll blends them
   const SET = [
-    { top: 0x02040C, bot: 0x0A1A3A, fog: 0x07122A, dust: 0x4F7BFF, drift: [0, 0.02, 0], floor: 0.0, light: 0x7FE7FF },   // intro (seven curves): blue nebula
+    { top: 0x02040C, bot: 0x0A1A3A, fog: 0x07122A, dust: 0x8FAEFF, drift: [0, 0.02, 0], floor: 0.0, light: 0x7FE7FF },   // intro (seven curves): blue nebula
     { top: 0x070500, bot: 0x2A1C04, fog: 0x1C1203, dust: 0xFFC94D, drift: [0, 0.05, 0], floor: 0.0, light: 0xFFE45C },   // ORB: amber, rising
     { top: 0x080300, bot: 0x2E1004, fog: 0x200A02, dust: 0xFF8A3D, drift: [0.22, 0, 0], floor: 0.25, light: 0xFF7A1A },   // open drive: streaming
     { top: 0x05020C, bot: 0x1C0B36, fog: 0x140828, dust: 0xB98CFF, drift: [0, 0.01, 0.03], floor: 0.9, light: 0xB26BFF },// IB: violet grid
@@ -392,10 +392,10 @@ async function run() {
         float fade = exp(-pow(length(w.xz - c0) / 18.0, 2.0)); gl_FragColor = vec4(col, l * a * fade * 0.28); }` });
   const floor = new THREE.Mesh(new THREE.PlaneGeometry(200, 400), floorMat); floor.rotation.x = -Math.PI / 2; floor.position.y = -2.6; scene.add(floor);
   // dust that fills the space around the camera and drifts with the setting
-  const DN = phone() ? 900 : 1800, dP = new Float32Array(DN * 3);
+  const DN = phone() ? 1400 : 2800, dP = new Float32Array(DN * 3);
   for (let i = 0; i < DN; i++) { dP[i * 3] = (Math.random() - .5) * 40; dP[i * 3 + 1] = (Math.random() - .5) * 22; dP[i * 3 + 2] = (Math.random() - .5) * 40; }
   const dG = new THREE.BufferGeometry(); dG.setAttribute("position", new THREE.BufferAttribute(dP, 3));
-  const dM = new THREE.PointsMaterial({ color: 0xffffff, size: 0.035, transparent: true, opacity: 0.85, depthWrite: false, blending: THREE.AdditiveBlending });
+  const dM = new THREE.PointsMaterial({ color: 0xffffff, size: 0.042, transparent: true, opacity: 0.85, depthWrite: false, blending: THREE.AdditiveBlending });
   const dust = new THREE.Points(dG, dM); dust.frustumCulled = false; scene.add(dust);
 
   /* ---------- particles: each object's shape, blended by scroll ---------- */
