@@ -26,7 +26,7 @@ a { color: inherit; }
 .tl { top: calc(22px + env(safe-area-inset-top, 0px)); left: max(26px, env(safe-area-inset-left, 0px)); font: 400 11px/1 var(--wide); letter-spacing: .14em; text-transform: uppercase; }
 .tr { top: calc(20px + env(safe-area-inset-top, 0px)); right: max(26px, env(safe-area-inset-right, 0px)); display: flex; gap: 22px; font: 400 11px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; pointer-events: auto; }
 .tr a { text-decoration: none; color: var(--g); }
-a.tl { color: var(--w); text-decoration: none; } a.tl:hover { color: var(--acc); }
+a.tl { color: var(--w); text-decoration: none; pointer-events: auto; cursor: pointer; } a.tl:hover { color: var(--acc); }
 .tr a:hover { color: var(--w); }
 .br { right: max(26px, env(safe-area-inset-right, 0px)); bottom: calc(24px + env(safe-area-inset-bottom, 0px)); text-align: right; font: 400 11px/1.7 var(--mono); color: var(--g); letter-spacing: .06em; text-transform: uppercase; }
 .br b { display: block; font: 400 28px/1 var(--wide); color: var(--w); letter-spacing: 0; margin-bottom: 8px; }
