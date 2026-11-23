@@ -49,6 +49,9 @@ a.tl { color: var(--w); text-decoration: none; pointer-events: auto; cursor: poi
 .hero p { margin: 0; max-width: 30em; color: #C9CBD6; font-size: 15px; }
 .hero .cue { margin-top: 26px; font: 400 11px/1 var(--mono); color: var(--g); letter-spacing: .08em; text-transform: uppercase; }
 .hero.off { opacity: 0; }
+.hero .rl { margin-top: 10px; }
+.hero.off a { pointer-events: none; }
+.hero .rl a { color: #FFFFFF; text-decoration: underline; text-underline-offset: 3px; pointer-events: auto; cursor: pointer; }
 .stats { position: fixed; z-index: 5; left: max(26px, env(safe-area-inset-left, 0px)); top: calc(96px + env(safe-area-inset-top, 0px)); display: grid; grid-template-columns: repeat(2, auto); gap: 22px 40px; pointer-events: none; }
 .stats div { min-width: 0; }
 .stats dt { font: 400 10.5px/1 var(--mono); color: var(--g); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 9px; }
@@ -80,7 +83,7 @@ a.tl { color: var(--w); text-decoration: none; pointer-events: auto; cursor: poi
 <a class="ui tl" id="nm" href="#">Mustafa Hassan</a>
 <nav class="ui tr" aria-label="Links"><a id="ln-h" href="#">Home</a><a id="ln-x" href="#" target="_blank" rel="noopener">Every trade ↗</a><a href="https://github.com/hasmus25" target="_blank" rel="noopener">GitHub ↗</a></nav>
 <div class="rail" id="rail" aria-hidden="true"></div>
-<section class="ui hero" id="hero"><h1 id="hn">Trading<br>Models</h1><p>Intraday Nasdaq-100 futures strategies, built and traded by me. Seven live models below.</p><p class="cue">Scroll ↓ &nbsp;·&nbsp; ← → &nbsp;·&nbsp; drag to turn</p></section>
+<section class="ui hero" id="hero"><h1 id="hn">Trading<br>Models</h1><p>Intraday Nasdaq-100 futures strategies, built and traded by me. Seven live models below.</p><p class="rl">Each one walks through a real trade. The full rules are on the <a id="ln-r">Every trade</a> page.</p><p class="cue">Scroll ↓ &nbsp;·&nbsp; ← → &nbsp;·&nbsp; drag to turn</p></section>
 <section class="ui bl out" id="bl" aria-live="polite"></section>
 <div class="ui br" id="br"></div>
 <p id="fail" hidden>This needs WebGL, which this browser has turned off.</p>
@@ -103,7 +106,7 @@ const fDate = s => { const [y, m, d] = s.split("-").map(Number); return `${MON[m
 const ct = m => { const t = 510 + Math.round(m); return `${Math.floor(t / 60)}:${String(t % 60).padStart(2, "0")}`; };
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const C7 = H.combined, FW = H.forward || [], fwdR = FW.reduce((a, f) => a + f.r, 0);
-$("#nm").textContent = "← " + H.name; $("#nm").href = H.home; $("#ln-h").href = H.home; $("#ln-x").href = H.explorer;
+$("#nm").textContent = "← " + H.name; $("#nm").href = H.home; $("#ln-h").href = H.home; $("#ln-x").href = H.explorer; $("#ln-r").href = H.explorer;
 
 /* ---------- each strategy's day, with the setup it waits for ---------- */
 function vwapOf(ex) {
