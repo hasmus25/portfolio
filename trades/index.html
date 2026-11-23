@@ -348,6 +348,9 @@ footer { font-size: 14px; }
 @media (max-width: 560px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .grid { row-gap: 48px; }
 .sheet { border-top: 0; padding-top: 0; }
+/* the intro line sits under the name */
+.hero-top { grid-template-columns: 1fr; gap: 10px; }
+.hero .lede { font-size: 15px; color: var(--ink-3); }
 </style>
 
 <header class="mast">
@@ -364,7 +367,7 @@ footer { font-size: 14px; }
   <section class="wrap hero" id="session" data-page="strategies" aria-labelledby="h-hero">
     <div class="hero-top">
       <h1 class="wordmark" id="h-hero">A<i>to</i>M</h1>
-      <p class="lede"><span class="nw cap">ten</span> intraday strategies for <strong>Nasdaq-100 futures</strong>. All <span class="nw">ten</span> are backtested on one-minute CME data from January 2018 to October 2026, after slippage and commissions.</p>
+      <p class="lede">Every result is after slippage and commissions.</p>
     </div>
     <dl class="tally" id="tally"></dl>
 
