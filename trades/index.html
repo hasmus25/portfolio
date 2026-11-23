@@ -318,17 +318,26 @@ th[aria-sort] { color: var(--ink); }
 .rules li { font-size: 16px; border-top: 0; padding: 6px 0; }
 .more-body { min-height: 0; }
 footer { font-size: 14px; }
-/* one page per section, switched from the top bar (hash: #strategies, #compare, #evidence, #forward, #ledger, #method) */
-.band[data-page]:not(#strategies) { border-top: 0; padding-block: 44px 24px; }
+/* one page per section, switched from the top bar (hash: #strategies, #compare, #evidence, #forward, #ledger, #method;
+   the sections' ids are pg-*, so the browser doesn't jump to them) */
+.band[data-page]:not(#pg-strategies) { border-top: 0; padding-block: 44px 24px; }
 .mast nav a[aria-current="page"] { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 6px; }
-#method .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px 40px; font-size: 15px; color: var(--ink-2); }
-#method dt { color: var(--ink); font-weight: 600; margin-bottom: 4px; }
-#method dd { margin: 0; }
+#pg-method .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px 40px; font-size: 15px; color: var(--ink-2); }
+#pg-method dt { color: var(--ink); font-weight: 600; margin-bottom: 4px; }
+#pg-method dd { margin: 0; }
 .pager { display: flex; justify-content: space-between; gap: 16px; padding-block: 28px 64px; border-top: 1px solid var(--rule); font-size: 15px; }
 .pager a { color: var(--ink); text-decoration: none; }
 .pager a span { display: block; font-size: 13px; color: var(--ink-3); margin-bottom: 2px; }
 .pager a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .pager .nx { text-align: right; margin-left: auto; }
+/* quieter: no totals strip under the intro, a smaller intro */
+#tally { display: none; }
+.hero { padding-block: 40px 8px; }
+.wordmark { font-size: clamp(34px, 4.6vw, 48px); }
+.hero-top { align-items: center; }
+.lede { font-size: 17px; color: var(--ink-2); }
+#pg-strategies.band { border-top: 0; padding-top: 36px; }
+#build-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 </style>
 
 <header class="mast">
@@ -351,7 +360,7 @@ footer { font-size: 14px; }
 
   </section>
 
-  <section class="band" id="strategies" data-page="strategies" aria-labelledby="h-strat">
+  <section class="band" id="pg-strategies" data-page="strategies" aria-labelledby="h-strat">
     <div class="wrap">
       <div class="sect-head">
         <h2 class="sect" id="h-strat">The <span class="nw">ten</span> strategies</h2>
@@ -361,7 +370,7 @@ footer { font-size: 14px; }
     </div>
   </section>
 
-  <section class="band" id="compare" data-page="compare" aria-labelledby="h-cmp">
+  <section class="band" id="pg-compare" data-page="compare" aria-labelledby="h-cmp">
     <div class="wrap">
       <div class="sect-head">
         <h2 class="sect" id="h-cmp">Side by side</h2>
@@ -375,7 +384,7 @@ footer { font-size: 14px; }
     </div>
   </section>
 
-  <section class="band" id="evidence" data-page="evidence" aria-labelledby="h-ev">
+  <section class="band" id="pg-evidence" data-page="evidence" aria-labelledby="h-ev">
     <div class="wrap">
       <div class="sect-head">
         <h2 class="sect" id="h-ev">How much to trust it</h2>
@@ -387,7 +396,7 @@ footer { font-size: 14px; }
     </div>
   </section>
 
-  <section class="band" id="forward" data-page="forward" aria-labelledby="h-fwd">
+  <section class="band" id="pg-forward" data-page="forward" aria-labelledby="h-fwd">
     <div class="wrap">
       <div class="sect-head">
         <h2 class="sect" id="h-fwd">Forward record</h2>
@@ -399,7 +408,7 @@ footer { font-size: 14px; }
     </div>
   </section>
 
-  <section class="band" id="ledger" data-page="ledger" aria-labelledby="h-led">
+  <section class="band" id="pg-ledger" data-page="ledger" aria-labelledby="h-led">
     <div class="wrap">
       <div class="sect-head">
         <h2 class="sect" id="h-led">What didn't make it</h2>
@@ -408,7 +417,7 @@ footer { font-size: 14px; }
     </div>
   </section>
 
-  <section class="band" id="method" data-page="method" aria-labelledby="h-meth">
+  <section class="band" id="pg-method" data-page="method" aria-labelledby="h-meth">
     <div class="wrap">
       <div class="sect-head"><h2 class="sect" id="h-meth">Method</h2></div>
       <dl class="cols">
@@ -677,7 +686,7 @@ window.SITE = (function (DATA) {
   function renderPicker() {
     const el = $("#picker");
     el.innerHTML = S.STRATS.map(st => `<button class="pick" role="tab" id="tab-${st.key}" type="button" data-key="${st.key}" aria-selected="${st.key === state.key}" tabindex="${st.key === state.key ? 0 : -1}">
-      <span class="badge" data-c="${st.code}">${st.code}</span><span class="nm">${esc(st.name)}</span>${sparkline(st)}</button>`).join("");
+      <span class="badge" data-c="${st.code}">${st.code}</span><span class="nm">${esc(st.name)}</span></button>`).join("");
     el.onclick = e => { const b = e.target.closest(".pick"); if (b) select(b.dataset.key); };
     el.onkeydown = e => {
       if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
@@ -721,13 +730,12 @@ window.SITE = (function (DATA) {
         </div>
         <div class="controls">
           <span class="lbl">Period</span><div class="seg" data-ctl="period"></div>
-          <span class="lbl">Side</span><div class="seg" data-ctl="side"></div>
         </div>
       </div>
       <dl class="stats">${stats.map(([a, b, c]) => `<div class="stat"><dt>${esc(a)}</dt><dd class="${a === "Total" || a === "Average trade" ? cls(+String(b).replace(MINUS, "-").replace("R", "")) : ""}">${esc(b)}</dd></div>`).join("")}</dl>
       <div class="grid">
         <div class="sheet c12" id="ex-sheet"><div class="ex-tabs"><h3 style="margin:0">Example days</h3>
-          <div class="controls"><div class="seg" id="ex-pick"></div><div class="seg" id="ex-tf"></div></div></div>
+          <div class="controls"><div class="seg" id="ex-pick"></div></div></div>
           <div class="chart" id="ex-chart"></div><p class="ex-cap" id="ex-cap"></p></div>
         <div class="sheet c5"><h3>Rules</h3><ol class="rules">${st.rules.map(r => `<li>${esc(r)}</li>`).join("")}</ol></div>
         <div class="sheet c7"><h3>Equity and drawdown, ${esc(P.long)}</h3><div class="chart" id="eq"></div></div>
@@ -737,7 +745,6 @@ window.SITE = (function (DATA) {
         <div class="more-body" id="more-body"></div>
       </div>`;
     document.querySelectorAll('#dossier [data-ctl="period"]').forEach(el => seg(el, S.PERIODS.map(p => [p.id, p.label]), state.period, setPeriod));
-    document.querySelectorAll('#dossier [data-ctl="side"]').forEach(el => seg(el, [["both", "Both"], ["long", "Long"], ["short", "Short"]], state.side, v => { state.side = v; renderDossier(); }));
     if (!exs.length) $("#ex-sheet").hidden = true;
     drawDossierCharts(X);
   }
@@ -755,7 +762,7 @@ window.SITE = (function (DATA) {
     renderMore(X);
   }
   // one secondary panel at a time, so the strategy view stays readable
-  const MORE = [["checks", "Checks"], ["clock", "When it trades"], ["prof", "Outcome profile"], ["years", "By year"], ["months", "By month"], ["split", "Exits, sides, weekdays"], ["tape", "Every trade"]];
+  const MORE = [["checks", "Checks"], ["years", "By year"], ["tape", "Every trade"]];
   function renderMore(X) {
     const st = X.st, el = $("#more-body");
     const panels = {
@@ -903,7 +910,6 @@ window.SITE = (function (DATA) {
   function renderExamples() {
     const exs = D.examples[state.key] || []; if (!exs.length) return;
     seg($("#ex-pick"), exs.map((e, i) => [String(i), e.label.replace(/^A |^The /, "").replace(/^./, c => c.toUpperCase())]), String(state.ex), v => { state.ex = +v; renderExamples(); });
-    seg($("#ex-tf"), [["1", "1 min"], ["5", "5 min"]], String(state.tf), v => { state.tf = +v; renderExamples(); });
     exampleChart($("#ex-chart"), exs[state.ex], S.BY[state.key]);
   }
   function exampleChart(el, ex, st) {
@@ -967,7 +973,7 @@ window.SITE = (function (DATA) {
     const candles = bars.map(b => { const up = b.c >= b.o, cx = (X(b.a) + X(b.b)) / 2;
       return `<line x1="${cx}" x2="${cx}" y1="${Y(b.h)}" y2="${Y(b.l)}" stroke="var(--ink-2)" stroke-width="1"/><rect x="${cx - bwid / 2}" y="${Y(Math.max(b.o, b.c))}" width="${bwid}" height="${Math.max(0.8, Math.abs(Y(b.o) - Y(b.c)))}" fill="${up ? "var(--sheet)" : "var(--ink-2)"}" stroke="var(--ink-2)" stroke-width="${tf === 1 ? 0.6 : 1}"/>`; }).join("");
     el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(ex.label)} on ${fDate(ex.date)}">
-      ${BR.split("").map((b, i) => `<rect x="${X(i * 30)}" y="${mt}" width="${X(30) - X(0)}" height="${H - mt - mb}" fill="${i % 2 ? "var(--rule-2)" : "transparent"}" opacity=".45"/><text x="${(X(i * 30) + X(i * 30 + 30)) / 2}" y="${H - 18}" text-anchor="middle" style="fill:var(--ink-2);font-weight:700">${b}</text>`).join("")}
+      ${BR.split("").map((b, i) => `<text x="${(X(i * 30) + X(i * 30 + 30)) / 2}" y="${H - 18}" text-anchor="middle" style="fill:var(--ink-2);font-weight:700">${b}</text>`).join("")}
       ${[0, 60, 120, 180, 240, 300, 360].map(m => `<text x="${X(m)}" y="${H - 4}" text-anchor="${m ? "middle" : "start"}">${ct(m)}</text>`).join("")}
       ${ticks.filter(t => lv.every(l => Math.abs(Y(t) - l.y) > 13)).map(t => `<text x="${W - mr + 6}" y="${Y(t) + 4}" style="fill:var(--ink-3)">${fInt(Math.round(t))}</text>`).join("")}
       <rect x="${X(ex.et)}" y="${mt}" width="${Math.max(1, exitX - X(ex.et))}" height="${H - mt - mb}" fill="${won ? "var(--sky-tint)" : "var(--star-tint)"}" opacity=".4"/>
@@ -980,18 +986,18 @@ window.SITE = (function (DATA) {
       ${lv.map(l => `<text x="${W - mr + 6}" y="${l.y + 4}" style="fill:${l.color};font-weight:700">${esc(l.text)}</text>`).join("")}
     </svg>`;
     const how = { S: "stopped out", T: "hit its target", B: "stopped at breakeven", C: "held to the close" }[ex.x];
-    $("#ex-cap").innerHTML = `<b>${esc(ex.label.replace(/^./, c => c.toUpperCase()))}, ${fDate(ex.date)}.</b> ${s === 1 ? "Long" : "Short"} at ${ct(ex.et)} CT near ${fPx(e)}, risking ${fN(k, 1)} points; ${how} at ${ct(ex.xt)} CT. <span class="${cls(ex.r)}">${fR(ex.r, 2)}, ${fUSD(usd(ex.r))}</span>. ${state.tf}-minute candles; shaded columns are the half-hour brackets.`;
+    $("#ex-cap").innerHTML = `<b>${esc(ex.label.replace(/^./, c => c.toUpperCase()))}, ${fDate(ex.date)}.</b> ${s === 1 ? "Long" : "Short"} at ${ct(ex.et)} CT near ${fPx(e)}, risking ${fN(k, 1)} points; ${how} at ${ct(ex.xt)} CT. <span class="${cls(ex.r)}">${fR(ex.r, 2)}, ${fUSD(usd(ex.r))}</span>. 5-minute candles; letters mark the half-hour brackets.`;
   }
 
   /* ---------- compare ---------- */
   function renderCompare() {
-    document.querySelectorAll('#compare [data-ctl="period"]').forEach(el => seg(el, S.PERIODS.map(p => [p.id, p.label]), state.period, setPeriod));
+    document.querySelectorAll('#pg-compare [data-ctl="period"]').forEach(el => seg(el, S.PERIODS.map(p => [p.id, p.label]), state.period, setPeriod));
     const rows = S.STRATS.map(st => ({ st, ...S.stats(st.key, state.period, "both") }));
     const all = { st: { key: "all", code: "ALL", name: `All ${NW}` }, ...S.combined(S.STRATS.map(s => s.key), state.period) };
     const cols = [
-      ["n", "Trades", r => fInt(r.n)], ["perYear", "A year", r => r.perYear ? r.perYear.toFixed(0) : "–"], ["win", "Win", r => fPct(r.win)],
+      ["n", "Trades", r => fInt(r.n)], ["win", "Win", r => fPct(r.win)],
       ["avg", "Avg R", r => fR(r.avg, 2), true], ["tot", "Total", r => fR(r.tot), true], ["usd", "$", r => fUSD(usd(r.tot)), true], ["pf", "PF", r => fN(r.pf)],
-      ["sharpe", "Sharpe", r => fN(r.sharpe)], ["mdd", "Max DD", r => fR(r.mdd)], ["rdd", "Total ÷ DD", r => r.rdd ? r.rdd.toFixed(1) : "–"],
+      ["sharpe", "Sharpe", r => fN(r.sharpe)], ["mdd", "Max DD", r => fR(r.mdd)],
       ["yearsUp", "Years up", r => `${r.yearsUp} of ${r.yearsN}`],
     ];
     const val = (r, c) => c === "usd" ? r.tot : r[c] ?? -Infinity;
@@ -1006,7 +1012,7 @@ window.SITE = (function (DATA) {
       const b = e.target.closest("button[data-key]"); if (b) { show("strategies"); select(b.dataset.key); }
     };
     const P = S.PER[state.period];
-    $("#cmp-cap").textContent = `${P.long}. VWAP has order flow only from Oct 2023 and the wall break options data only from Oct 2025, so their rows cover less history. "All ${NW}" adds every strategy's daily R; its trades overlap on some days.`;
+    $("#cmp-cap").textContent = `${P.long}. VWAP starts in Oct 2023 and the wall break in Oct 2025, when their data begins.`;
     renderCorr(); renderBuilder();
   }
   function renderCorr() {
@@ -1014,7 +1020,7 @@ window.SITE = (function (DATA) {
     const rgba = (hex, a) => { const n = parseInt(hex.replace("#", ""), 16); return `rgba(${n >> 16 & 255},${n >> 8 & 255},${n & 255},${a.toFixed(3)})`; };
     $("#corr").innerHTML = `<table class="heat"><thead><tr><th></th>${S.STRATS.map(s => `<th title="${esc(s.name)}">${s.code}</th>`).join("")}</tr></thead><tbody>
       ${S.STRATS.map((s, i) => `<tr><th class="y" title="${esc(s.name)}">${s.code}</th>${M[i].map((v, j) => i === j ? `<td class="none">·</td>` : v == null ? `<td class="none">–</td>` :
-        `<td style="background:${rgba(v >= 0 ? sky : star, Math.min(cap, 0.08 + Math.abs(v) * 1.6))}" title="${esc(s.name)} and ${esc(S.STRATS[j].name)}: ${v.toFixed(2)}">${(v < 0 ? MINUS : "") + Math.abs(v).toFixed(2).replace(/^0/, "")}</td>`).join("")}</tr>`).join("")}
+        `<td style="background:${rgba(v >= 0 ? "#FFFFFF" : star, Math.min(.3, 0.04 + Math.abs(v) * .8))}" title="${esc(s.name)} and ${esc(S.STRATS[j].name)}: ${v.toFixed(2)}">${(v < 0 ? MINUS : "") + Math.abs(v).toFixed(2).replace(/^0/, "")}</td>`).join("")}</tr>`).join("")}
     </tbody></table>`;
   }
   function renderBuilder() {
@@ -1023,12 +1029,9 @@ window.SITE = (function (DATA) {
     el.onclick = e => { const b = e.target.closest(".tog"); if (!b) return; const k = b.dataset.key; if (state.build.has(k)) { if (state.build.size > 1) state.build.delete(k); } else state.build.add(k); renderBuilder(); };
     const c = S.combined([...state.build], state.period);
     equityChart($("#build-chart"), c.sr, c.curve, { h: 230 });
-    let worst = 0, best = 0, days = 0, multi = 0;
-    const perDay = {}; for (const t of c.tr) perDay[t.di] = (perDay[t.di] || 0) + 1;
-    for (const i of c.sr.idx) { const v = c.arr[i]; worst = Math.min(worst, v); best = Math.max(best, v); if (perDay[i]) { days++; if (perDay[i] > 1) multi++; } }
     const facts = [
-      ["Trades", `${fInt(c.n)} on ${fInt(days)} days`], ["Total", `${fR(c.tot)} · ${fUSD(usd(c.tot))}`], ["Profit factor", fN(c.pf)], ["Sharpe", fN(c.sharpe)],
-      ["Max drawdown", `${fR(c.mdd)} · ${fUSD(usd(c.mdd))}`], ["Worst day", fR(worst, 2)], ["Best day", fR(best, 2)], ["Days with 2 or more trades", days ? fPct(multi / days) : "–"],
+      ["Total", `${fR(c.tot)} · ${fUSD(usd(c.tot))}`], ["Sharpe", fN(c.sharpe)],
+      ["Max drawdown", `${fR(c.mdd)} · ${fUSD(usd(c.mdd))}`],
     ];
     $("#build-facts").innerHTML = facts.map(([a, b]) => `<div><dt>${esc(a)}</dt><dd>${esc(b)}</dd></div>`).join("");
   }
@@ -1097,8 +1100,8 @@ window.SITE = (function (DATA) {
   /* ---------- ledger ---------- */
   function renderLedger() {
     const L = D.ledger;
-    $("#led-table").innerHTML = `<table><thead><tr><th>Date</th><th>Idea</th><th>What was tested</th><th>What happened</th><th>Repo</th></tr></thead><tbody>
-      ${L.map(r => `<tr><td class="mono" style="white-space:nowrap">${esc(r.date)}</td><td style="font-weight:600">${esc(r.area)}</td><td>${esc(r.idea)}</td><td>${esc(r.result)}</td><td class="mono" style="font-size:12px">${esc(r.repo)}</td></tr>`).join("")}
+    $("#led-table").innerHTML = `<table><thead><tr><th>Date</th><th>Idea</th><th>What was tested</th><th>What happened</th></tr></thead><tbody>
+      ${L.map(r => `<tr><td class="mono" style="white-space:nowrap">${esc(r.date)}</td><td style="font-weight:600">${esc(r.area)}</td><td>${esc(r.idea)}</td><td>${esc(r.result)}</td></tr>`).join("")}
     </tbody></table>`;
   }
 
@@ -1124,6 +1127,7 @@ window.SITE = (function (DATA) {
   }
   window.show = show;
   const route = () => { const h = location.hash.slice(1); if (S.BY[h]) { show("strategies", false); if (h !== state.key) select(h); } else show(h || "strategies"); };
+  try { history.scrollRestoration = "manual"; } catch (e) {}
   route();
 
   let rw = 0;
