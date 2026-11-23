@@ -64,11 +64,11 @@ body::after { content: ""; position: fixed; inset: -50%; pointer-events: none; z
 
 .copy { font: 400 14px var(--serif); color: var(--fg3); background: none; border: 0; padding: 0 0 0 10px; cursor: pointer; text-decoration: underline; text-decoration-color: #3A3834; text-underline-offset: 3px; }
 .copy:hover { color: var(--fg); }
-/* background picture (2296 px wide original, served at 1920): full-screen and fixed, darkened enough for the text,
-   no blur; fades further toward black lower down so the long sections stay calm */
-.bgimg { position: fixed; inset: 0; z-index: -1; pointer-events: none; background: #000 url("bg.jpg") 58% center / cover no-repeat; filter: brightness(.6) saturate(.95); }
-.bgimg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,.55), rgba(0,0,0,.25) 60%, rgba(0,0,0,.1)), linear-gradient(rgba(0,0,0,.1), rgba(0,0,0,.35) 60%, rgba(0,0,0,.6)); }
-@media (max-width: 760px) { .bgimg { filter: brightness(.45) saturate(.9); } }
+/* background picture (a 736 x 1310 portrait of a cathedral): full-screen and fixed on every width, framed on the angel
+   and the domes; it is a bright image, so it is darkened more than a night scene would need */
+.bgimg { position: fixed; inset: 0; z-index: -1; pointer-events: none; background: #000 url("bg.jpg") center 58% / cover no-repeat; filter: brightness(.55) saturate(1.15); }
+.bgimg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,.5), rgba(0,0,0,.2) 60%, rgba(0,0,0,.1)), linear-gradient(rgba(0,0,0,.25), rgba(0,0,0,.35) 60%, rgba(0,0,0,.6)); }
+@media (max-width: 760px) { .bgimg { filter: brightness(.46) saturate(1.1); background-position: center 40%; } }
 html { background: #000; } body { background: transparent; }  /* so the fixed picture shows through */
 /* the top link row stays lowercase; everything else keeps normal capitals */
 .links a { text-transform: lowercase; }
