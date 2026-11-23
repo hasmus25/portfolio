@@ -351,6 +351,9 @@ footer { font-size: 14px; }
 /* the intro line sits under the name */
 .hero-top { grid-template-columns: 1fr; gap: 10px; }
 .hero .lede { font-size: 15px; color: var(--ink-3); }
+/* chart labels get a black outline so they stay readable where they cross candles or lines */
+.chart svg text { paint-order: stroke; stroke: var(--paper); stroke-width: 3.5px; stroke-linejoin: round; }
+#ex-chart svg text { font-size: 12px; }
 </style>
 
 <header class="mast">
@@ -978,6 +981,8 @@ window.SITE = (function (DATA) {
     for (let i = 1; i < lv.length; i++) if (lv[i].y - lv[i - 1].y < 13) lv[i].y = lv[i - 1].y + 13;
     const exitX = X(Math.max(ex.xt, ex.et + 1));
     const won = ex.r > 0;
+    // shapes go under the candles, their labels on top (with the black outline) so the words stay readable
+    const TXT = /<text[^>]*>[^<]*<\/text>/g, under = x => x.replace(TXT, ""), labels = x => (x.match(TXT) || []).join("");
     const candles = bars.map(b => { const up = b.c >= b.o, cx = (X(b.a) + X(b.b)) / 2;
       return `<line x1="${cx}" x2="${cx}" y1="${Y(b.h)}" y2="${Y(b.l)}" stroke="var(--ink-2)" stroke-width="1"/><rect x="${cx - bwid / 2}" y="${Y(Math.max(b.o, b.c))}" width="${bwid}" height="${Math.max(0.8, Math.abs(Y(b.o) - Y(b.c)))}" fill="${up ? "var(--sheet)" : "var(--ink-2)"}" stroke="var(--ink-2)" stroke-width="${tf === 1 ? 0.6 : 1}"/>`; }).join("");
     el.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(ex.label)} on ${fDate(ex.date)}">
@@ -985,7 +990,7 @@ window.SITE = (function (DATA) {
       ${[0, 60, 120, 180, 240, 300, 360].map(m => `<text x="${X(m)}" y="${H - 4}" text-anchor="${m ? "middle" : "start"}">${ct(m)}</text>`).join("")}
       ${ticks.filter(t => lv.every(l => Math.abs(Y(t) - l.y) > 13)).map(t => `<text x="${W - mr + 6}" y="${Y(t) + 4}" style="fill:var(--ink-3)">${fInt(Math.round(t))}</text>`).join("")}
       <rect x="${X(ex.et)}" y="${mt}" width="${Math.max(1, exitX - X(ex.et))}" height="${H - mt - mb}" fill="${won ? "var(--sky-tint)" : "var(--star-tint)"}" opacity=".4"/>
-      ${ovSvg}${vwSvg}${candles}
+      ${under(ovSvg)}${under(vwSvg)}${candles}${labels(ovSvg)}${labels(vwSvg)}
       <line x1="${X(ex.et)}" x2="${exitX}" y1="${Y(e)}" y2="${Y(e)}" stroke="var(--ink)" stroke-width="1.2"/>
       ${inView(stop) ? `<line x1="${X(ex.et)}" x2="${exitX}" y1="${Y(stop)}" y2="${Y(stop)}" stroke="var(--star)" stroke-width="1.4" stroke-dasharray="5 3"/>` : ""}
       ${tR != null && inView(tR) ? `<line x1="${X(ex.et)}" x2="${exitX}" y1="${Y(tR)}" y2="${Y(tR)}" stroke="var(--sky)" stroke-width="1.4" stroke-dasharray="5 3"/>` : ""}
