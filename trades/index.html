@@ -338,6 +338,16 @@ footer { font-size: 14px; }
 .lede { font-size: 17px; color: var(--ink-2); }
 #pg-strategies.band { border-top: 0; padding-top: 36px; }
 #build-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+/* second pass: plain toggles, wider spacing, fewer rules */
+.builder-picks { gap: 6px 20px; }
+.tog { border: 0; padding: 4px 0; background: none; color: var(--ink); }
+.tog[aria-pressed="true"] { border: 0; }
+.tog[aria-pressed="false"] { color: var(--ink-3); text-decoration: none; }
+#build-facts, #fwd-facts { grid-template-columns: repeat(auto-fit, minmax(160px, 220px)); }
+.stats { grid-template-columns: repeat(4, minmax(0, 1fr)); border-bottom: 0; }
+@media (max-width: 560px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.grid { row-gap: 48px; }
+.sheet { border-top: 0; padding-top: 0; }
 </style>
 
 <header class="mast">
@@ -378,8 +388,7 @@ footer { font-size: 14px; }
       <div class="controls" style="margin-bottom:14px"><span class="lbl">Period</span><div class="seg" data-ctl="period"></div></div>
       <div class="grid">
         <div class="sheet c12"><h3>All <span class="nw">ten</span> strategies</h3><div class="scroll" id="cmp-table"></div><p class="cap" id="cmp-cap"></p></div>
-        <div class="sheet c5"><h3>Correlation of daily results</h3><div class="scroll" id="corr"></div><p class="cap">Pearson correlation of daily R, on sessions where both strategies could trade. Near zero means they rarely win or lose on the same days.</p></div>
-        <div class="sheet c7"><h3>Combine them</h3><div class="builder-picks" id="build-picks"></div><div class="chart" id="build-chart"></div><dl class="facts" id="build-facts"></dl></div>
+        <div class="sheet c12"><h3>Combine them</h3><div class="builder-picks" id="build-picks"></div><div class="chart" id="build-chart"></div><dl class="facts" id="build-facts"></dl></div>
       </div>
     </div>
   </section>
@@ -390,7 +399,7 @@ footer { font-size: 14px; }
         <h2 class="sect" id="h-ev">How much to trust it</h2>
       </div>
       <div class="grid">
-        <div class="sheet c6"><h3>Sharpe ratio with 95% intervals</h3><div class="chart" id="forest"></div><p class="cap">Stationary block bootstrap of daily R (2,000 resamples, 20-session average blocks, days without a trade included), over each strategy's full history. A wide bar means too little history to be sure.</p></div>
+        <div class="sheet c6"><h3>Sharpe ratio with 95% intervals</h3><div class="chart" id="forest"></div><p class="cap">Bootstrap of daily R over each strategy's full history. A wide bar means too little history to be sure.</p></div>
         <div class="sheet c6"><h3>Independent checks</h3><div class="scroll tall" id="ev-table"></div></div>
       </div>
     </div>
@@ -619,7 +628,7 @@ window.SITE = (function (DATA) {
                   set(k, v) { try { localStorage.setItem("atom:" + k, JSON.stringify(v)); } catch (e) {} } };
   const state = {
     key: S.BY[location.hash.slice(1)] ? location.hash.slice(1) : "orb",
-    period: "all", side: "both", more: "checks", perR: store.get("perR", 200), ex: 0, tf: 5,
+    period: "all", side: "both", more: "years", perR: store.get("perR", 200), ex: 0, tf: 5,
     build: new Set(S.STRATS.map(s => s.key)), sort: { col: "tot", dir: -1 },
   };
   const usd = r => r * state.perR;
@@ -714,14 +723,9 @@ window.SITE = (function (DATA) {
     const P = S.PER[state.period];
     const full = state.period === "all" && state.side === "both";
     const stats = [
-      ["Trades", fInt(X.n), X.perYear ? `${X.perYear.toFixed(0)} a year` : ""],
-      ["Win rate", fPct(X.win), X.n ? `${fInt(Math.round(X.win * X.n))} winners` : ""],
-      ["Total", fR(X.tot), fUSD(usd(X.tot))],
-      ["Profit factor", fN(X.pf), X.gl ? `${X.gp.toFixed(1)}R won, ${X.gl.toFixed(1)}R lost` : ""],
-      ["Sharpe", fN(X.sharpe), full ? `95% interval ${fN(st.ci[0])} to ${fN(st.ci[1])}` : "daily, annualised"],
-      ["Max drawdown", fR(X.mdd), X.longest ? `longest ${X.longest} sessions` : fUSD(usd(X.mdd))],
+      ["Trades", fInt(X.n)], ["Win rate", fPct(X.win)], ["Total", fR(X.tot)], ["Max drawdown", fR(X.mdd)],
     ];
-    const exs = (D.examples[st.key] || []);
+    const exs = examplesOf(st.key);
     $("#dossier").innerHTML = `
       <div class="doss-head">
         <div>
@@ -732,7 +736,7 @@ window.SITE = (function (DATA) {
           <span class="lbl">Period</span><div class="seg" data-ctl="period"></div>
         </div>
       </div>
-      <dl class="stats">${stats.map(([a, b, c]) => `<div class="stat"><dt>${esc(a)}</dt><dd class="${a === "Total" || a === "Average trade" ? cls(+String(b).replace(MINUS, "-").replace("R", "")) : ""}">${esc(b)}</dd></div>`).join("")}</dl>
+      <dl class="stats">${stats.map(([a, b]) => `<div class="stat"><dt>${esc(a)}</dt><dd class="${a === "Total" || a === "Average trade" ? cls(+String(b).replace(MINUS, "-").replace("R", "")) : ""}">${esc(b)}</dd></div>`).join("")}</dl>
       <div class="grid">
         <div class="sheet c12" id="ex-sheet"><div class="ex-tabs"><h3 style="margin:0">Example days</h3>
           <div class="controls"><div class="seg" id="ex-pick"></div></div></div>
@@ -762,7 +766,7 @@ window.SITE = (function (DATA) {
     renderMore(X);
   }
   // one secondary panel at a time, so the strategy view stays readable
-  const MORE = [["checks", "Checks"], ["years", "By year"], ["tape", "Every trade"]];
+  const MORE = [["years", "By year"], ["tape", "Every trade"]];
   function renderMore(X) {
     const st = X.st, el = $("#more-body");
     const panels = {
@@ -774,7 +778,7 @@ window.SITE = (function (DATA) {
       split: () => { el.innerHTML = `<div class="grid"><div class="sheet c4"><h3>How trades end</h3><div class="scroll" id="exits"></div></div><div class="sheet c4"><h3>Long and short</h3><div class="scroll" id="sides"></div></div><div class="sheet c4"><h3>Day of the week</h3><div class="scroll" id="dows"></div></div></div>`; breakdowns(X.tr); },
       tape: () => { el.innerHTML = `<div class="scroll tall" id="tape"></div><p class="cap" id="tape-cap"></p>`; tape(X.tr, st); },
     };
-    (panels[state.more] || panels.checks)();
+    (panels[state.more] || panels.years)();
   }
 
   function equityChart(el, sr, cv, opts = {}) {
@@ -907,8 +911,9 @@ window.SITE = (function (DATA) {
   }
 
   /* ---------- example days ---------- */
+  const examplesOf = k => (D.examples[k] || []).filter(e => e.label !== "A recent trade");
   function renderExamples() {
-    const exs = D.examples[state.key] || []; if (!exs.length) return;
+    const exs = examplesOf(state.key); if (!exs.length) return;
     seg($("#ex-pick"), exs.map((e, i) => [String(i), e.label.replace(/^A |^The /, "").replace(/^./, c => c.toUpperCase())]), String(state.ex), v => { state.ex = +v; renderExamples(); });
     exampleChart($("#ex-chart"), exs[state.ex], S.BY[state.key]);
   }
@@ -996,9 +1001,8 @@ window.SITE = (function (DATA) {
     const all = { st: { key: "all", code: "ALL", name: `All ${NW}` }, ...S.combined(S.STRATS.map(s => s.key), state.period) };
     const cols = [
       ["n", "Trades", r => fInt(r.n)], ["win", "Win", r => fPct(r.win)],
-      ["avg", "Avg R", r => fR(r.avg, 2), true], ["tot", "Total", r => fR(r.tot), true], ["usd", "$", r => fUSD(usd(r.tot)), true], ["pf", "PF", r => fN(r.pf)],
+      ["tot", "Total", r => fR(r.tot), true], ["usd", "$", r => fUSD(usd(r.tot)), true], ["pf", "PF", r => fN(r.pf)],
       ["sharpe", "Sharpe", r => fN(r.sharpe)], ["mdd", "Max DD", r => fR(r.mdd)],
-      ["yearsUp", "Years up", r => `${r.yearsUp} of ${r.yearsN}`],
     ];
     const val = (r, c) => c === "usd" ? r.tot : r[c] ?? -Infinity;
     const { col, dir } = state.sort;
@@ -1013,15 +1017,7 @@ window.SITE = (function (DATA) {
     };
     const P = S.PER[state.period];
     $("#cmp-cap").textContent = `${P.long}. VWAP starts in Oct 2023 and the wall break in Oct 2025, when their data begins.`;
-    renderCorr(); renderBuilder();
-  }
-  function renderCorr() {
-    const M = S.corr(state.period), cap = parseFloat(css("--heat-max")) || 0.7, sky = css("--sky-fill"), star = css("--star-fill");
-    const rgba = (hex, a) => { const n = parseInt(hex.replace("#", ""), 16); return `rgba(${n >> 16 & 255},${n >> 8 & 255},${n & 255},${a.toFixed(3)})`; };
-    $("#corr").innerHTML = `<table class="heat"><thead><tr><th></th>${S.STRATS.map(s => `<th title="${esc(s.name)}">${s.code}</th>`).join("")}</tr></thead><tbody>
-      ${S.STRATS.map((s, i) => `<tr><th class="y" title="${esc(s.name)}">${s.code}</th>${M[i].map((v, j) => i === j ? `<td class="none">·</td>` : v == null ? `<td class="none">–</td>` :
-        `<td style="background:${rgba(v >= 0 ? "#FFFFFF" : star, Math.min(.3, 0.04 + Math.abs(v) * .8))}" title="${esc(s.name)} and ${esc(S.STRATS[j].name)}: ${v.toFixed(2)}">${(v < 0 ? MINUS : "") + Math.abs(v).toFixed(2).replace(/^0/, "")}</td>`).join("")}</tr>`).join("")}
-    </tbody></table>`;
+    renderBuilder();
   }
   function renderBuilder() {
     const el = $("#build-picks");
@@ -1086,10 +1082,9 @@ window.SITE = (function (DATA) {
       dot.addEventListener("pointerenter", e => { dot.setAttribute("r", n > 60 ? 4.5 : 6); showTip(`<b>${fDate(f.date)}</b> · ${esc(S.BY[f.key].name)}<br>Trade ${fR(f.r, 2)} · ${fUSD(usd(f.r))}<br>Running total ${fR(cum[i], 2)}`, e.clientX, e.clientY); });
       dot.addEventListener("pointerleave", () => { dot.setAttribute("r", n > 60 ? 3 : 4.2); hideTip(); });
     });
-    $("#fwd-key").innerHTML = S.STRATS.filter(s => F.some(f => f.key === s.key)).map(s => `<span><b style="background:${ACC[s.key]}"></b>${s.code}</span>`).join("") + `<span class="muted">· line: running total after each trade</span>`;
+    $("#fwd-key").innerHTML = S.STRATS.filter(s => F.some(f => f.key === s.key)).map(s => `<span><b style="background:${ACC[s.key]}"></b>${s.code}</span>`).join("");
     const wins = F.filter(f => f.r > 0).length, tot = c;
-    const nov = F.filter(f => f.date >= "2026-11-01").reduce((a, f) => a + f.r, 0);
-    $("#fwd-facts").innerHTML = [["Trades", fInt(F.length)], ["Winners", `${wins} (${fPct(wins / F.length)})`], ["Total", `${fR(tot, 2)} · ${fUSD(usd(tot))}`], ["November so far", `${fR(nov, 2)} · ${fUSD(usd(nov))}`]]
+    $("#fwd-facts").innerHTML = [["Trades", `${fInt(F.length)}, ${wins} winners`], ["Total", `${fR(tot, 2)} · ${fUSD(usd(tot))}`]]
       .map(([a, b]) => `<div><dt>${a}</dt><dd>${b}</dd></div>`).join("");
     $("#fwd-table").innerHTML = `<table><thead><tr><th>Date</th><th>Strategy</th><th class="r">R</th><th class="r">$</th></tr></thead><tbody>
       ${[...F].reverse().map(f => `<tr><td class="mono">${f.date}</td><td><span class="badge" data-c="${S.BY[f.key].code}">${S.BY[f.key].code}</span> ${esc(S.BY[f.key].name)}</td><td class="r ${cls(f.r)}">${fR(f.r, 2)}</td><td class="r ${cls(f.r)}">${fUSD(usd(f.r))}</td></tr>`).join("")}
