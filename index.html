@@ -12,7 +12,7 @@
 <meta property="og:title" content="Mustafa Hassan">
 <meta property="og:description" content="Mustafa Hassan: academics, awards, experience, leadership and quantitative trading research.">
 <meta property="og:url" content="https://mustafafhassan.com/">
-<meta property="og:image" content="https://mustafafhassan.com/og.jpg?v=f4857717">
+<meta property="og:image" content="https://mustafafhassan.com/og.jpg?v=9d5a55e9">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="mustafa hassan, over the northern lights above the mountains at Reine in Lofoten, Norway">
@@ -22,7 +22,7 @@
 <body>
 <title>Mustafa Hassan</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&family=Instrument+Serif:ital@0;1&display=swap">
 <style>
 /* Home page: the system sans-serif, white on true black, sentence case, one narrow column, plain text links.
    The only colour is in the trading chart, where each line is a real model. Other skins (white, paper) stay available
@@ -31,7 +31,8 @@
   --bg: #000000; --fg: #FFFFFF; --fg2: #E2E2E2; --fg3: #B8B8B8; --rule: #3C3C3C; --ul: #959595;
   --panel: rgba(8, 14, 20, .58); --panel-edge: rgba(169, 195, 220, .09);
   --acc: #AEEBD0; --acc2: #FFFFFF;  /* pale aurora green for headings, white for the line under each title */
-  --serif: "Geist", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;  /* Geist (the user's pick, as on Dhruv's site); name kept for the CSS below */
+  --serif: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;  /* text face (the user's pick, 2026-11-26, replacing Geist); name kept for the CSS below */
+  --display: "Instrument Serif", Georgia, "Times New Roman", serif;  /* the name only */
   color-scheme: dark;
 }
 /* plain skins: system fonts and true black/white, set by SKIN in the script */
@@ -85,9 +86,9 @@ body::after { content: ""; position: fixed; inset: -50%; pointer-events: none; z
    the aurora's curtains and their reflection are computed, nothing is painted. One still picture, fixed while the page
    scrolls (no WebGL, nothing animating), a portrait version for phones. */
 #bg { position: fixed; left: 0; top: 0; width: 100%; height: 100vh; height: 100lvh; z-index: -2; pointer-events: none;
-  background: #04070D url("lf.98cb7233.webp") center 42% / cover no-repeat;
+  background: #04070D url("lf.9fdbbb31.webp") center 42% / cover no-repeat;
   transform: translateZ(0); will-change: transform; backface-visibility: hidden; contain: strict; }
-@media (max-aspect-ratio: 4/5) { #bg { background-image: url("lf.4d3affba.webp"); background-position: center 35%; } }
+@media (max-aspect-ratio: 4/5) { #bg { background-image: url("lf.3d936e5a.webp"); background-position: center 35%; } }
 html { background: #04070D; }
 .shade { display: none; }
 .shade { position: fixed; inset: 0; z-index: -1; pointer-events: none;
@@ -152,7 +153,7 @@ h3 { display: flex; align-items: flex-start; gap: 10px; }
    no backdrop blur (it re-ran on every scroll frame) */
 main { max-width: 700px; padding-top: clamp(64px, 14vh, 140px); }
 header { min-height: 0; display: block; padding-bottom: 0; }
-h1 { font: 600 clamp(36px, 4.4vw, 46px)/1.08 var(--serif); letter-spacing: -.02em; margin: 0 0 14px; }
+h1 { font: 400 clamp(44px, 5.6vw, 58px)/1.02 var(--display); letter-spacing: -.01em; margin: 0 0 14px; }
 main section { background: rgba(5, 11, 17, .76); background-image: linear-gradient(160deg, rgba(255,255,255,.06), rgba(255,255,255,0) 38%);
   border-radius: 16px; padding: 30px 34px 34px; margin-top: 22px; border-color: transparent;
   box-shadow: inset 1px 1px 0 rgba(255,255,255,.2), inset -1px -1px 0 rgba(255,255,255,.1), inset 0 0 0 1px rgba(174,235,208,.06), 0 12px 32px rgba(0,0,0,.35);
