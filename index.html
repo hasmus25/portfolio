@@ -224,7 +224,7 @@ window.__smooth = () => {
   if (!window.Lenis || window.__lenis || matchMedia("(prefers-reduced-motion: reduce)").matches || !matchMedia("(pointer: fine)").matches) return;
   const lenis = new Lenis({ lerp: .11, smoothWheel: true, wheelMultiplier: 1 });
   window.__lenis = lenis;
-  const loop = t => { lenis.raf(t); requestAnimationFrame(loop); }; requestAnimationFrame(loop);
+  const loop = t => { if (window.__lenis !== lenis) return; lenis.raf(t); requestAnimationFrame(loop); }; requestAnimationFrame(loop);
 };
 </script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" async onload="__smooth()"></script>
@@ -465,9 +465,10 @@ window.__smooth = () => {
     const U = {}; ["uPlane", "uZ", "uD0", "uRefY", "uRefX", "uF", "uAsp", "uSize", "uIn", "uT", "uB", "uCam", "uHalo", "uHaloA", "uFall"].forEach(n => U[n] = gl.getUniformLocation(pr, n));
     gl.disable(gl.DEPTH_TEST); gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_COLOR);
     const PW = 1, PH = H / W, ZS = .55, F = 1 / Math.tan(17 * Math.PI / 180);
+    let dprCap = CFG.dprMax || 1.5, halosOn = true, slowEma = 0, moving = 0, stage = 0;   // adaptive quality (see frame)
     let vw, vh, D0, dpr, top, bot, fx, cyLo, cyHi, camA, camB, scroll = 0, mx = 0, my = 0, tmx = 0, tmy = 0;
     function size() {
-      dpr = Math.min(CFG.dprMax || 1.5, devicePixelRatio || 1);   // the points are soft, so full retina resolution only costs speed
+      dpr = Math.min(dprCap, devicePixelRatio || 1);   // the points are soft, so full retina resolution only costs speed
       cv.width = Math.round(innerWidth * dpr); cv.height = Math.round(innerHeight * dpr); gl.viewport(0, 0, cv.width, cv.height);
       const asp = innerWidth / innerHeight, m = .9;
       // camera distance: the view at depth 0 fits inside the painting (cover), with a margin for the parallax
@@ -517,12 +518,23 @@ window.__smooth = () => {
       gl.uniform1f(U.uIn, intro); gl.uniform1f(U.uT, 0);
       gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT);
       use(MAIN); gl.uniform1f(U.uHalo, 1); gl.uniform1f(U.uHaloA, 1); gl.uniform1f(U.uFall, 3.2); gl.drawArrays(gl.POINTS, 0, N);
-      if (HALO) { use(HALO); gl.uniform1f(U.uHalo, CFG.glow.size); gl.uniform1f(U.uHaloA, CFG.glow.alpha); gl.uniform1f(U.uFall, 2.4); gl.drawArrays(gl.POINTS, 0, HN); }
+      if (HALO && halosOn) { use(HALO); gl.uniform1f(U.uHalo, CFG.glow.size); gl.uniform1f(U.uHaloA, CFG.glow.alpha); gl.uniform1f(U.uFall, 2.4); gl.drawArrays(gl.POINTS, 0, HN); }
       if (!shown) { shown = true; document.documentElement.classList.add("pts"); }
-      if (intro < 1 || Math.abs(target - sc) > .0004 || Math.abs(tmx - mx) > .002 || Math.abs(tmy - my) > .002) kick();
+      const busy = intro < 1 || Math.abs(target - sc) > .0004 || Math.abs(tmx - mx) > .002 || Math.abs(tmy - my) > .002;
+      // safety net for slow machines: if frames during motion keep taking over 30 ms, first lower the resolution and drop the
+      // glow, then (if still slow) hand scrolling back to the browser; a fast machine never trips it
+      if (intro >= 1 && busy && dt > 0 && dt < 250) {
+        slowEma = moving ? slowEma * .9 + dt * .1 : dt; moving++;
+        if (moving > 24 && slowEma > 30 && stage < 2) {
+          stage++; moving = 0;
+          if (stage === 1) { dprCap = 1; halosOn = false; size(); }
+          else if (window.__lenis) { window.__lenis.destroy(); window.__lenis = null; }
+        }
+      } else if (!busy) moving = 0;
+      if (busy) kick();
     }
     kick();
-    window.__pts = N; window.__glow = HN;
+    window.__pts = N; window.__glow = HN; window.__q = () => ({ dprCap, halosOn, stage, slowEma: Math.round(slowEma) });
     const note = document.getElementById("scene-note");
     if (note) { note.textContent = `The ${CFG.noun} behind this page is ${N.toLocaleString("en-US")} points of light, each set at the depth a neural network estimated for that part of the painting.`; note.hidden = false; }
   }).catch(e => console.warn("scene", e));
