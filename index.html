@@ -195,7 +195,7 @@ main section, header { contain: layout paint; }
       <div class="flow-lines" id="flow-lines" aria-hidden="true"></div>
       <p class="flow-plain" id="flow-plain"></p>
     </div>
-    <p class="flow-sum">Developed quantitative Nasdaq futures strategies using auction market theory, order flow and dealer gamma exposure. Backtested $283K in net profit (one NQ contract) across 966 trades with a 1.5 Sharpe ratio, validated through out-of-sample testing and statistical tests for overfitting.</p>
+    <p class="flow-sum">Developed quantitative Nasdaq futures strategies using auction market theory, order flow and dealer gamma exposure. Backtested $283K in net profit (one NQ contract, after slippage and fees) across 966 trades with a 1.5 Sharpe ratio, validated through out-of-sample testing and statistical tests for overfitting.</p>
     <p class="cap"><a href="models/?v=3e062e7f">Explore the models</a> · <a href="trades/?v=6b360680">every trade</a> · <a href="NQTM.pdf?v=4fa229fe" target="_blank" rel="noopener">the paper</a></p>
   </section>
 
@@ -274,7 +274,7 @@ window.__smooth = () => {
   const cssv = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
   const fR = v => (v < 0 ? "−" : "+") + Math.abs(v).toFixed(0) + "R";
   const C = D.combined, fwd = (D.fwd >= 0 ? "+" : "−") + Math.abs(D.fwd).toFixed(1) + "R";
-  const TEXT = `Seven intraday models for Nasdaq-100 futures, built on Market Profile, order flow from tick-level trade and order-book data, and dealer gamma from QQQ options. Tested on CME data from 2018 to 2026, after costs.`;
+  const TEXT = "";   // the user removed the text above the chart (2026-11-27); the summary sits under it (.flow-sum)
   const flow = document.getElementById("flow"), cv = document.getElementById("flow-cv"), lines = document.getElementById("flow-lines"), plain = document.getElementById("flow-plain");
   plain.textContent = TEXT;
   const t0 = Date.parse("2018-01-01"), t1 = Date.parse(D.end), top = Math.max(...D.strategies.map(s => s.tot));
@@ -326,7 +326,6 @@ window.__smooth = () => {
   }
   const run = () => { try { layout(); } catch (e) { console.warn(e); } };
   (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(run);
-  import("https://cdn.jsdelivr.net/npm/@chenglou/pretext@1.0.0/dist/layout.js").then(m => { PT = m; run(); }, () => {});
   let fw = 0; new ResizeObserver(() => { if (flow.clientWidth !== fw) { fw = flow.clientWidth; requestAnimationFrame(run); } }).observe(flow);
   document.querySelectorAll(".copy").forEach(b => b.addEventListener("click", () => {
     const done = t => { b.textContent = t; setTimeout(() => b.textContent = "copy", 1600); };
